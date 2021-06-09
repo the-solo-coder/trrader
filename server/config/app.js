@@ -35,6 +35,7 @@ mongoDB.once('open', () => {
 let usersRouter = require('../routes/user');
 let booksRouter = require('../routes/book');
 let ordersRouter = require('../routes/order');
+let binanceRouter = require('../routes/binance');
 
 let app = express();
 
@@ -95,6 +96,7 @@ let strategy = new JWTStrategy(jwtOptions, (jwt_payload, done) => {
 passport.use(strategy);
 
 // routing
+app.use('/api/binance', binanceRouter );
 app.use('/api/user', usersRouter);
 app.use('/api/book-list', booksRouter);
 app.use('/api/orders', ordersRouter);
