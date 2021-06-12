@@ -18,6 +18,7 @@ module.exports.displayPrice = (req, res, next) => {
 };
 
 module.exports.addAlert = (req, res, next) => {
+    console.log(req.body);
     let newAlert = Alert(req.body);
 
     Alert.create(newAlert, (err, Alert) => {
