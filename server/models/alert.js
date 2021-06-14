@@ -6,7 +6,7 @@ let alertModel = mongoose.Schema({
     symbol: String,
     condition: { type: Number, min: 1, max: 2, required: true },
     value: Number,
-    creator: [mongoose.Types.ObjectId]
+    creator: mongoose.Types.ObjectId
 }, 
 {
     collection: "alerts"
