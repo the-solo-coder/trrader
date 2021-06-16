@@ -7,7 +7,7 @@
 var app = require('./config/app');
 var debug = require('debug')('02-the-express-generator-end:server');
 var http = require('http');
-var result = require('./config/api');
+var checkAlert = require('./config/checkAlert');
 
 /**
  * Get port from environment and store in Express.
@@ -16,7 +16,7 @@ var result = require('./config/api');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-let initialize = result();
+let initialize = checkAlert();
 
 /**
  * Create HTTP server.

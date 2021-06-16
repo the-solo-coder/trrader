@@ -28,14 +28,16 @@ module.exports = () =>
                             if(err) { console.log(err); }
                             else { console.log("Successfully Deleted Alert"); }
                         })
+                        alertList.splice(index, 1);
                     }
-                    console.log(38000.35000000 < result.price)
-                    if(alertList[index].condition == 2 && alertList[index].value < result.price){
+                    if(alertList[index].condition == 2 && alertList[index].value < result.data.price){
                         console.log(`My price alert: ${alertList[index].value} is less than actual price : ${result.data.price}`)
+                        //send a email
                         Alert.deleteOne({_id: alertList[index]._id}, (err) => {
                             if(err) { console.log(err); }
                             else { console.log("Successfully Deleted Alert"); }
                         })
+                        alertList.splice(index, 1);
                     }
                 })
                 .catch((err) => {
