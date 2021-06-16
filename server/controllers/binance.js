@@ -1,10 +1,8 @@
 let axios = require('axios');
 let express = require('express');
-let mongoose = require('mongoose');
+let Alert = require('../models/alert');
 
 const apiUrl = "https://api.binance.com/api/v3/ticker/price?symbol=";
-
-let Alert = require('../models/alert');
 
 
 module.exports.displayPrice = (req, res, next) => {
@@ -30,3 +28,4 @@ module.exports.addAlert = (req, res, next) => {
         }
     });
 }
+
