@@ -13,7 +13,7 @@ var checkAlert = require('./config/checkAlert');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '5000');
 app.set('port', port);
 
 let initialize = checkAlert();

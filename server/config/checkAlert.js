@@ -11,9 +11,54 @@ module.exports = () =>
         if(err){return console.error(err);}
         else{
             alertList = resultList;
-            test();
+            //test();
+            test2(); //Richard test for alerts every 10 minutes
+            //test3(); //testing to see if I can send an email to myself - does not work atm
         }
     });
+
+
+    const test3 = ()=>{
+        //const bitCoinUSD = "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT";
+        bitCoinPrice = 35000;
+
+        var nodemailer = require('nodemailer');
+
+        var transporter = nodemailer.createTransport({
+            service:'gmail',
+            auth: {
+                user: '', //input gmail username
+                pass: '' //input actual password
+            }
+        });
+
+        var mailOptions = {
+            from: 'richarddalmacio@gmail.com',
+            to: 'richard_dalmacio@hotmail.com',
+            subject: 'Sending Email using Node.js',
+            text: `The price of BTCUSDT is ` + bitCoinPrice //a placeholder number for the actual value
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+    }
+
+    //10-minute alert TR-26 - currently working
+    const test2 = ()=>{
+        const bitCoinUSD = "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT";
+        setInterval(() => {
+        axios(bitCoinUSD).then(result => {
+            console.log(`BTCUSDT is currently : ${result.data.price}`);
+        })
+        .catch((err) => {
+            console.log(err); 
+         });}, 100000); //10-minute timer
+    }
 
     const test = ()=>{ 
         for (let index = 0; index < alertList.length; index++) {
