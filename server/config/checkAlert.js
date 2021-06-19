@@ -12,31 +12,29 @@ module.exports = () =>
         else{
             alertList = resultList;
             //test();
-            test2(); //Richard test for alerts every 10 minutes
+            //test2(); //Richard test for alerts every 10 minutes
             //test3(); //testing to see if I can send an email to myself - does not work atm
         }
     });
 
 
-    const test3 = ()=>{
-        //const bitCoinUSD = "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT";
-        bitCoinPrice = 35000;
-
+    const sendEmail = (bitcoinPrice)=>{
+                
         var nodemailer = require('nodemailer');
 
         var transporter = nodemailer.createTransport({
-            service:'gmail',
+            service:'hotmail',
             auth: {
-                user: '', //input gmail username
-                pass: '' //input actual password
+                user: 'alessandra60@hotmail.com', //input gmail username
+                pass: '#Ale190695' //input actual password
             }
         });
 
         var mailOptions = {
-            from: 'richarddalmacio@gmail.com',
-            to: 'richard_dalmacio@hotmail.com',
+            from: 'alessandra60@hotmail.com',
+            to: 'sergiobtos@hotmail.com',
             subject: 'Sending Email using Node.js',
-            text: `The price of BTCUSDT is ` + bitCoinPrice //a placeholder number for the actual value
+            text: `The price of BTCUSDT is `+ bitcoinPrice //a placeholder number for the actual value
         };
 
         transporter.sendMail(mailOptions, function(error, info){
@@ -47,9 +45,10 @@ module.exports = () =>
             }
         });
     }
+    sendEmail();
 
     //10-minute alert TR-26 - currently working
-    const test2 = ()=>{
+    /* const test2 = ()=>{
         const bitCoinUSD = "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT";
         setInterval(() => {
         axios(bitCoinUSD).then(result => {
@@ -74,6 +73,8 @@ module.exports = () =>
                             else { console.log("Successfully Deleted Alert"); }
                         })
                         alertList.splice(index, 1);
+                        sendEmail(result.data.price);
+
                     }
                     if(alertList[index].condition == 2 && alertList[index].value < result.data.price){
                         console.log(`My price alert: ${alertList[index].value} is less than actual price : ${result.data.price}`)
@@ -83,6 +84,7 @@ module.exports = () =>
                             else { console.log("Successfully Deleted Alert"); }
                         })
                         alertList.splice(index, 1);
+                        sendEmail(result.data.price);
                     }
                 })
                 .catch((err) => {
@@ -90,7 +92,7 @@ module.exports = () =>
                 }); 
             }, 5000);   
         }
-    };     
+    };      */
 }
 
 
