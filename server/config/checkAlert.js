@@ -17,7 +17,7 @@ module.exports = () =>
         }
     });
 
-
+//Send Email Function
     const sendEmail = (bitcoinPrice)=>{
                 
         var nodemailer = require('nodemailer');
