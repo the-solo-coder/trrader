@@ -25,8 +25,8 @@ module.exports = () =>
         var transporter = nodemailer.createTransport({
             service:'hotmail',
             auth: {
-                user: 'alessandra60@hotmail.com', //input gmail username
-                pass: '#Ale190695' //input actual password
+                user: '', //input gmail username
+                pass: '' //input actual password
             }
         });
 
