@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import './App.css';
-import BookList from './Book/BookList';
+//import BookList from './Book/BookList';
+import CreateAlert from './Alerts/CreateAlert';
 
 
 class App extends React.Component {
@@ -10,17 +11,17 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      books: []
+      alerts: []
     }
   }
 
   componentDidMount() {
-    const url = 'http://localhost:5000/api/book-list';
+    const url = 'http://localhost:5000/api/create-alert';
 
-      axios.get(url)
+    axios.get(url)
       .then((Response) => {
         this.setState({
-          books: Response.data
+          alerts: Response.data
         })
       })
       .catch((error) => {
@@ -29,18 +30,18 @@ class App extends React.Component {
 
   };
 
-  render () {
+  render() {
     return (
       <div className="container-fluid">
         <div className="row">
           <nav>
             <div className="nav-wrapper blue darken-1">
-              <a href="/" className="brand-logo">Book Management</a>
+              <a href="/" className="brand-logo">Trrader</a>
             </div>
           </nav>
         </div>
         <div className="row">
-          <div className="col s12"><BookList books={this.state.books}/></div>
+          <div className="col s12"><CreateAlert books={this.state.books} /></div>
         </div>
       </div>
     );
