@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import './App.css';
-//import BookList from './Book/BookList';
 import CreateAlert from './Alerts/CreateAlert';
 
 
@@ -41,7 +40,7 @@ class App extends React.Component {
           </nav>
         </div>
         <div className="row">
-          <div className="col s12"><CreateAlert books={this.state.books} /></div>
+          <div className="col s12"><CreateAlert alert={this.state.alerts} /></div>
         </div>
       </div>
     );
