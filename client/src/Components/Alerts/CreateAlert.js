@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Container, Form} from 'react-bootstrap';
 import webHost from '../../config/web';
 export default class CreateAlert extends Component {
     constructor() {
@@ -60,8 +59,8 @@ export default class CreateAlert extends Component {
     render() {
         return (
             <>
-            <Container>   
-                    <Form  onSubmit={this.onSubmitAlert.bind(this)}>
+            <div className="container">   
+                    <form  onSubmit={this.onSubmitAlert.bind(this)}>
                         <div className="card-Header">
                             <h4><i className="fa fa-bell"></i> New Alert</h4>
                         </div>
@@ -94,8 +93,8 @@ export default class CreateAlert extends Component {
                             <button type="button" className="btn btn-default" onClick={(event) => this.onFormClear(event)}>&nbsp;Clear</button>
 
                         </div>
-                    </Form>
-            </Container>
+                    </form>
+            </div>
             </>
         )
     }
