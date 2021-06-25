@@ -25,13 +25,13 @@ module.exports = () =>
                        if(element.condition == 1 && element.value > result.data.price){
                            console.log(`My price alert($${element.value}) is more than the actual price of BTC (${result.data.price})`);
                            sendEmail(`My price alert($${element.value}) 
-                           is more than the actual price of BTC ($${result.data.price})`, "aderson@dnnhero.com");
+                           is more than the actual price of BTC ($${result.data.price})`, "a@hotmail.com");
                            deleteOne(element._id);
                        }
                        if(element.condition == 2 && element.value < result.data.price){
                             console.log(`My price alert($${element.value}) is less than the actual price of BTC ($${result.data.price})`);
                             sendEmail(`My price alert($${element.value}) 
-                            is less than the actual price of BTC ($${result.data.price})`, "aderson@dnnhero.com");
+                            is less than the actual price of BTC ($${result.data.price})`, "a@hotmail.com");
                             deleteOne(element._id);
                        }
                    })

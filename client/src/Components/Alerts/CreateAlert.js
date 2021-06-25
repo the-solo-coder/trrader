@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-//import toastr from 'toastr';
+import {Container, Form} from 'react-bootstrap';
 import webHost from '../../config/web';
-
 export default class CreateAlert extends Component {
     constructor() {
         super();
@@ -12,6 +11,7 @@ export default class CreateAlert extends Component {
             value: ''
         }
     }
+    
     onChangeSymbol(event) {
         this.setState({
             symbol: event.target.value
@@ -33,19 +33,18 @@ export default class CreateAlert extends Component {
     //add new Alert upon submission
     onSubmitAlert(event) {
         event.preventDefault();
-        axios.post(webHost.URI + '/api/binance/addAlert/' + this.props.creator, {
+        axios.post(webHost.URI + '/api/binance/addAlert', {
             symbol: this.state.symbol,
             condition: this.state.condition,
             value: this.state.value,
             creator: this.props.creator
         })
-            .then((response) => {
-                // toastr.success(response.data.msg);
-                console.log(response.data.msg);
+        .then((response) => {
+                console.log(response.data);
                 this.clearFields();
             })
             .catch((error) => {
-                console.log(error.data.message);
+                console.log(error);
             });
     }
 
@@ -61,9 +60,8 @@ export default class CreateAlert extends Component {
     render() {
         return (
             <>
-                <div className="container">
-
-                    <form onSubmit={this.onSubmitAlert.bind(this)}>
+            <Container>   
+                    <Form  onSubmit={this.onSubmitAlert.bind(this)}>
                         <div className="card-Header">
                             <h4><i className="fa fa-bell"></i> New Alert</h4>
                         </div>
@@ -91,17 +89,13 @@ export default class CreateAlert extends Component {
                             </div>
                         </div>
                         <input type="hidden" value={this.props.creator} />
-                        {/* /.card-body */}
-
                         <div className="card-footer">
                             <button type="submit" className="btn btn-primary">Submit</button>&nbsp;
                             <button type="button" className="btn btn-default" onClick={(event) => this.onFormClear(event)}>&nbsp;Clear</button>
 
                         </div>
-                    </form>
-
-
-                </div>
+                    </Form>
+            </Container>
             </>
         )
     }
