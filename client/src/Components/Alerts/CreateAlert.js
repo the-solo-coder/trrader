@@ -39,14 +39,14 @@ export default class CreateAlert extends Component {
             value: this.state.value,
             creator: this.props.creator
         })
-            .then((response) => {
-                // toastr.success(response.data.msg);
-                console.log(response.data.msg);
-                this.clearFields();
-            })
-            .catch((error) => {
-                console.log(error.data.message);
-            });
+        //  .then((response) => {
+        // toastr.success(response.data.msg);
+        //    console.log(response.data.msg);
+        //    this.clearFields();
+        // })
+        // .catch((error) => {
+        //     console.log(error.data.message);
+        // });
     }
 
     //clear Fields after submission
@@ -99,8 +99,6 @@ export default class CreateAlert extends Component {
 
                         </div>
                     </form>
-
-
                 </div>
             </>
         )
