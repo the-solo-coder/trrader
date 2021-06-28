@@ -7,7 +7,8 @@ export default class CreateAlert extends Component {
         this.state = {
             symbol: '',
             condition: '',
-            value: ''
+            value: '',
+            message:''
         }
     }
     
@@ -40,6 +41,9 @@ export default class CreateAlert extends Component {
         })
         .then((response) => {
                 console.log(response.data);
+              //  this.setState({
+              //      message: response.data.msg
+              //  })
                 this.clearFields();
             })
             .catch((error) => {
@@ -74,10 +78,18 @@ export default class CreateAlert extends Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleInputConditionl1">Condition</label>
-                                <input type="number" className="form-control" id="exampleInputCondition1" placeholder="Enter Condition"
+                                <select className="form-control" id="exampleInputCondition1"
                                     value={this.state.condition}
                                     onChange={(event) => this.onChangeCondition(event)}
-                                />
+                                ><option>Select option</option>
+                                    <option> More than </option>
+                                    <option> Less than</option>
+                                </select>
+                                
+                            {/*     <input type="number" className="form-control" id="exampleInputCondition1" placeholder="Enter Condition"
+                                    value={this.state.condition}
+                                    onChange={(event) => this.onChangeCondition(event)}
+                                /> */}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleInputValue1">Value</label>
