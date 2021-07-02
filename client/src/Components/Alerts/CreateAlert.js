@@ -80,10 +80,10 @@ export default class CreateAlert extends Component {
                                 <label htmlFor="exampleInputConditionl1">Condition</label>
                                 <select className="form-control" id="exampleInputCondition1"
                                     value={this.state.condition}
-                                    onChange={(event) => this.onChangeCondition(event)}
-                                ><option>Select option</option>
-                                    <option> More than </option>
-                                    <option> Less than</option>
+                                    onChange={(event) => this.onChangeCondition(event)}>
+                                        <option>Select option</option>
+                                        <option> More than </option>
+                                        <option> Less than</option>
                                 </select>
                                 
                             {/*     <input type="number" className="form-control" id="exampleInputCondition1" placeholder="Enter Condition"

@@ -1,12 +1,20 @@
-import React from 'react';
-import axios from 'axios';
+import React, { Component }  from 'react';
+import AdminLTE, { Sidebar } from 'adminlte-2-react';
+//import axios from 'axios';
+import Home from './Home';
+
 import './App.css';
 import CreateAlert from './Alerts/CreateAlert';
+import ListAlert from './Alerts/ListAlert';
+import UpdateAlert from './Alerts/UpdateAlert';
 
 
-class App extends React.Component {
+const { Item, UserPanel, Header } = Sidebar;
 
-  constructor(props) {
+
+export default class App extends Component {
+
+ /* constructor(props) {
     super(props);
 
     this.state = {
@@ -28,23 +36,47 @@ class App extends React.Component {
       });
 
   };
+*/
+  getURL(value) {
+    switch (value) {
+      
+        case "home": return "/Home";
+        case "createAlert": return "/Alerts/CreateAlert";
+        case "listAlert": return "/Alerts/ListAlert";
+        case "updateAlert": return "/Alerts/UpdateAlert";
 
+        default: return "/Home";
+    }
+}
+  sidebar = [
+    <Header text="User Profile" />,
+    <UserPanel
+        username="Trrader User"
+       // imageUrl="https://i.pinimg.com/originals/8d/ec/f9/8decf9caed777b8d0d698e01270ce308.png"
+        status="Online" />,
+    <Header text="Navigation" />,
+    <Item key="Home" text="Home" to={this.getURL("home")} icon="fa-home" browserTitle="Home" />,
+    
+    <Item key="Alerts" text="Alerts" icon="fa-bell">
+        <Item key="CreateAlert" text="Create Alert" to={this.getURL("createAlert")} icon="fa-plus" />       
+        <Item key="ListAlert" text="List Alert" to={this.getURL("listAlert")} icon="fa-list" />
+</Item>
+    
+]
   render() {
     return (
-      <div className="container-fluid">
-        <div className="row">
-          <nav>
-            <div className="nav-wrapper blue darken-1">
-              <a href="/" className="brand-logo">Trrader</a>
-            </div>
-          </nav>
-        </div>
-        <div className="row">
-          <div className="col s12"><CreateAlert alert={this.state.alerts} /></div>
-        </div>
-      </div>
+      <AdminLTE title={["Trrader"]} titleShort={["T"]} theme="blue" sidebar={this.sidebar} browserTitle="Home" homeTo="./Home">
+        
+        {/* Main Navigation */}
+        <Home path={this.getURL("home")} />
+
+          {/* Alerts */}
+          <CreateAlert path={this.getURL("createAlert")} />
+          <ListAlert path={this.getURL("listAlert")} />
+          <UpdateAlert path={this.getURL("updateAlert")} />
+
+
+    </AdminLTE>
     );
   }
 }
-
-export default App;
