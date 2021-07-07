@@ -16,7 +16,7 @@ var checkAlert = require('./config/checkAlert');
 var port = normalizePort(process.env.PORT || '5000');
 app.set('port', port);
 
-let initialize = checkAlert();
+//let initialize = checkAlert();
 
 /**
  * Create HTTP server.

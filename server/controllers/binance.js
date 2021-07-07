@@ -15,8 +15,32 @@ module.exports.displayPrice = (req, res, next) => {
     });
 };
 
+module.exports.deleteAlert = (req, res, next) => {
+    
+    let id = req.params.id;
+    Alert.deleteOne({_id: id}, (err) => {
+        if(err) { 
+            console.log(err);
+            res.end(err); 
+        }else { 
+            console.log("Successfully Deleted Alert");
+            res.status(200).send({success:true, msg: 'Successfully Deleted Alert'}); 
+        }
+    });
+};
+
+module.exports.getAllAlerts = (req, res, next) => {
+    
+    Alert.find((err, alertList) =>{
+        if(err){
+            return console.error(err);
+        }else{
+            res.status(200).send({success:true, data: alertList});
+        }
+    })
+};
+
 module.exports.addAlert = (req, res, next) => {
-    console.log(req.body);
     let newAlert = Alert(req.body);
 
     Alert.create(newAlert, (err, Alert) => {
