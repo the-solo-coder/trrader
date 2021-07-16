@@ -53,3 +53,24 @@ module.exports.addAlert = (req, res, next) => {
     });
 }
 
+module.exports.updateAlert =  (req, res, next) => {
+    let id = req.params.id;
+
+    let updatedAlert = Alert({
+        "_id": id,
+        "symbol": req.body.symbol,
+        "condition": req.body.condition,
+        "value": req.body.value
+    });
+
+    Alert.updateOne({_id: id}, updatedAlert, (err) => {
+        if (err) {
+            console.log(err);
+            res.end(err);    
+        } else { 
+            console.log("Successfully updated the alert!"); 
+        }
+    });
+}
+
+
