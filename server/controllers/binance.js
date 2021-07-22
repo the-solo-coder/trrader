@@ -57,7 +57,6 @@ module.exports.updateAlert =  (req, res, next) => {
     let id = req.params.id;
 
     let updatedAlert = Alert({
-        "_id": id,
         "symbol": req.body.symbol,
         "condition": req.body.condition,
         "value": req.body.value
