@@ -14,6 +14,7 @@ module.exports = () =>
       });
     }
 
+    /*
     //checking my alert conditions ( ** 1 - Greater than > ** and ** 2 Less than < ** )
     setInterval(() => {
         Alert.find((err, allAlerts) => {
@@ -42,6 +43,7 @@ module.exports = () =>
             }
         });
     }, 10000);
+    */
 
     //10-minute alert TR-26 - currently working
     /* const test2 = ()=>{
