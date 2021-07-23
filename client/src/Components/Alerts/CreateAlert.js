@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import AsyncSelect from 'react-select/async';
 import api from '../../config/web';
 
 
@@ -9,10 +10,34 @@ export default class CreateAlert extends Component {
         this.state = {
             symbol: '',
             condition: '',
-            value: '',
-            message:''
-        }
+            value: ''
+        };
     }
+
+   /*  filterSymbols = (inputValue) => {
+        let result = this.props.pairs.filter(i =>
+            i.symbol.toLowerCase().includes(inputValue.toLowerCase())
+          );
+        return result; 
+      }; */
+
+  /*   fetchData = (inputValue, callback)=>{
+        if(!inputValue){
+            callback([]);
+        }else{
+            setTimeout(()=>{
+                callback(this.filterSymbols(inputValue));
+            },1000);
+        }
+    } */
+    
+  /*   onSearchChange = (symbol)=>{
+        if(symbol){
+            this.setState({
+                symbol: symbol,
+            });
+        }
+    }; */
     
     onChangeSymbol(event) {
         this.setState({
@@ -57,7 +82,7 @@ export default class CreateAlert extends Component {
             condition: '',
             value: '',
             creator: ''
-        });
+        });        
     }
 
     render() {
@@ -71,11 +96,24 @@ export default class CreateAlert extends Component {
                         <div className="card-body">
                             <div className="form-group">
                                 <label htmlFor="exampleInputSymbol1">Symbol</label>
-                                <input type="text" className="form-control" id="exampleInputSymbol1" placeholder="Enter Symbol"
-                                    value={this.state.symbol}
-                                    onChange={(event) => this.onChangeSymbol(event)}
-                                />
+                                <select className="form-control"
+                                        value={this.state.symbol} onChange={(e) => this.onChangeSymbol(e)}>
+                                    {this.props.pairs.map((option)=>(
+                                        <option value={option.symbol} key={option.symbol}>{option.symbol}</option>
+                                    ))}
+                                </select>
                             </div>
+                           {/*  <div className="form-group">
+                                <label htmlFor="exampleInputSymbol1">Symbol</label>
+                                <AsyncSelect
+                                className="form-control"
+                                value={this.state.symbol}
+                                onChange={(e)=> {this.onSearchChange(e);}}
+                                loadOptions={this.fetchData}
+                                defaultOptions={false}
+                                
+                                />
+                            </div> */}
                             <div className="form-group">
                                 <label htmlFor="exampleInputConditionl1">Condition</label>
                                 <select className="form-control" id="exampleInputCondition1"

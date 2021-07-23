@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 import api from '../config/web';
 import CreateAlert from './Alerts/CreateAlert';
+import ListAlert from './Alerts/ListAlert';
 
 
 class App extends React.Component {
@@ -11,20 +12,32 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      alerts: []
+      alerts: [],
+      pairs: []
     }
   }
 
   componentDidMount() {
     axios.get(api.URI+"/getAllAlerts")
-      .then((Response) => {
+      .then((res) => {
         this.setState({
-          alerts: Response.data.alertList
+          alerts: res.data.alertList
         })
       })
       .catch((error) => {
         console.log(error);
       });
+
+      axios.get('https://api.binance.com/api/v1/exchangeInfo')
+      .then((res)=> {
+        this.setState({
+          pairs: res.data.symbols
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
 
   };
 
@@ -39,7 +52,8 @@ class App extends React.Component {
           </nav>
         </div>
         <div className="row">
-          <div className="col s12"><CreateAlert alert={this.state.alerts[0]} /></div>
+          <div className="container"><CreateAlert alert={this.state.alerts[0]}  pairs={this.state.pairs}/></div>
+          <div className="container"><ListAlert alerts={this.state.alerts}/></div>
         </div>
       </div>
     );
