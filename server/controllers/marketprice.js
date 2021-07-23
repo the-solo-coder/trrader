@@ -5,7 +5,7 @@ let mongoose = require('mongoose');
 // enable jwt
 let jwt = require('jsonwebtoken');
 
-// connect to our Book Model
+// connect to our marketprice Model
 let Marketprice = require('../models/marketprice');
 
 module.exports.displayMarketpriceList = (req, res, next) => {

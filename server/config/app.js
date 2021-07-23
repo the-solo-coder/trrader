@@ -33,8 +33,6 @@ mongoDB.once('open', () => {
 }); 
 
 let usersRouter = require('../routes/user');
-let booksRouter = require('../routes/book');
-let ordersRouter = require('../routes/order');
 let binanceRouter = require('../routes/binance');
 
 let app = express();
@@ -111,8 +109,6 @@ passport.use(strategy);
 // routing
 app.use('/api/binance', binanceRouter );
 app.use('/api/user', usersRouter);
-app.use('/api/book-list', booksRouter);
-app.use('/api/orders', ordersRouter);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../public/index.html'));
 });
