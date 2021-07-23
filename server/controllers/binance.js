@@ -35,7 +35,7 @@ module.exports.getAllAlerts = (req, res, next) => {
         if(err){
             return console.error(err);
         }else{
-            res.status(200).send({success:true, data: alertList});
+            res.status(200).send({alertList});
         }
     })
 };
