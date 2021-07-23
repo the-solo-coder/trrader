@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import webHost from '../../config/web';
+import api from '../../config/web';
+
+
 export default class CreateAlert extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             symbol: '',
             condition: '',
@@ -24,7 +26,7 @@ export default class CreateAlert extends Component {
     }
     onChangeCondition(event) {
         this.setState({
-            condition: event.target.value
+            condition:parseInt(event.target.value)
         })
     }
     onFormClear(event) {
@@ -33,17 +35,14 @@ export default class CreateAlert extends Component {
     //add new Alert upon submission
     onSubmitAlert(event) {
         event.preventDefault();
-        axios.post(webHost.URI + '/api/binance/addAlert', {
+        axios.post(api.URI + '/addAlert', {
             symbol: this.state.symbol,
             condition: this.state.condition,
             value: this.state.value,
-            creator: this.props.creator
+            creator: this.props.alert.creator
         })
         .then((response) => {
                 console.log(response.data);
-              //  this.setState({
-              //      message: response.data.msg
-              //  })
                 this.clearFields();
             })
             .catch((error) => {
@@ -60,6 +59,7 @@ export default class CreateAlert extends Component {
             creator: ''
         });
     }
+
     render() {
         return (
             <>
@@ -82,14 +82,9 @@ export default class CreateAlert extends Component {
                                     value={this.state.condition}
                                     onChange={(event) => this.onChangeCondition(event)}
                                 ><option>Select option</option>
-                                    <option> More than </option>
-                                    <option> Less than</option>
+                                    <option value= "1" > More than </option>
+                                    <option value="2"> Less than</option>
                                 </select>
-                                
-                            {/*     <input type="number" className="form-control" id="exampleInputCondition1" placeholder="Enter Condition"
-                                    value={this.state.condition}
-                                    onChange={(event) => this.onChangeCondition(event)}
-                                /> */}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleInputValue1">Value</label>
@@ -99,7 +94,6 @@ export default class CreateAlert extends Component {
                                 />
                             </div>
                         </div>
-                        <input type="hidden" value={this.props.creator} />
                         <div className="card-footer">
                             <button type="submit" className="btn btn-primary">Submit</button>&nbsp;
                             <button type="button" className="btn btn-default" onClick={(event) => this.onFormClear(event)}>&nbsp;Clear</button>

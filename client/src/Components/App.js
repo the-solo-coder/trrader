@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import './App.css';
+import api from '../config/web';
 import CreateAlert from './Alerts/CreateAlert';
 
 
@@ -15,12 +16,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const url = 'http://localhost:5000/api/create-alert';
-
-    axios.get(url)
+    axios.get(api.URI+"/getAllAlerts")
       .then((Response) => {
         this.setState({
-          alerts: Response.data
+          alerts: Response.data.alertList
         })
       })
       .catch((error) => {
@@ -40,7 +39,7 @@ class App extends React.Component {
           </nav>
         </div>
         <div className="row">
-          <div className="col s12"><CreateAlert alert={this.state.alerts} /></div>
+          <div className="col s12"><CreateAlert alert={this.state.alerts[0]} /></div>
         </div>
       </div>
     );
