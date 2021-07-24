@@ -2,7 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import './App.css';
 import CreateAlert from './Alerts/CreateAlert';
-
+import Header from './Header';
+import Menu from './Menu';
+import Dashboard from './Dashboard';
+import Footer from './Footer';
 
 class App extends React.Component {
 
@@ -31,8 +34,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="container-fluid">
+      <div class="wrapper" className="container-fluid">
         <div className="row">
+          <Header/>
+          <Menu/>
+          <Dashboard/>
+          
           <nav>
             <div className="nav-wrapper blue darken-1">
               <a href="/" className="brand-logo">Trrader</a>
@@ -42,6 +49,7 @@ class App extends React.Component {
         <div className="row">
           <div className="col s12"><CreateAlert alert={this.state.alerts} /></div>
         </div>
+        <Footer/>
       </div>
     );
   }
