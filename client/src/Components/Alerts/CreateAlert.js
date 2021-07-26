@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import AsyncSelect from 'react-select/async';
+import Select from 'react-select';
 import api from '../../config/web';
 
 
@@ -14,36 +14,21 @@ export default class CreateAlert extends Component {
         };
     }
 
-   /*  filterSymbols = (inputValue) => {
-        let result = this.props.pairs.filter(i =>
-            i.symbol.toLowerCase().includes(inputValue.toLowerCase())
-          );
-        return result; 
-      }; */
+    onChangeSymbol = (value, { action }) => {
+        switch (action) {
+          case "clear":
+            if (value === null) {
+              this.setState({symbol: ''})  
+            }
+            break;
+          case "select-option":
+            this.setState({symbol: value.value});
+            break;
+          default:
+            break;
+        }
+      };
 
-  /*   fetchData = (inputValue, callback)=>{
-        if(!inputValue){
-            callback([]);
-        }else{
-            setTimeout(()=>{
-                callback(this.filterSymbols(inputValue));
-            },1000);
-        }
-    } */
-    
-  /*   onSearchChange = (symbol)=>{
-        if(symbol){
-            this.setState({
-                symbol: symbol,
-            });
-        }
-    }; */
-    
-    onChangeSymbol(event) {
-        this.setState({
-            symbol: event.target.value
-        })
-    }
     onChangeValue(event) {
         this.setState({
             value: event.target.value
@@ -78,11 +63,10 @@ export default class CreateAlert extends Component {
     //clear Fields after submission
     clearFields() {
         this.setState({
-            symbol: '',
             condition: '',
             value: '',
             creator: ''
-        });        
+        });       
     }
 
     render() {
@@ -95,25 +79,15 @@ export default class CreateAlert extends Component {
                         </div>
                         <div className="card-body">
                             <div className="form-group">
-                                <label htmlFor="exampleInputSymbol1">Symbol</label>
-                                <select className="form-control"
-                                        value={this.state.symbol} onChange={(e) => this.onChangeSymbol(e)}>
-                                    {this.props.pairs.map((option)=>(
-                                        <option value={option.symbol} key={option.symbol}>{option.symbol}</option>
-                                    ))}
-                                </select>
+                              <Select 
+                              isClearable={true}
+                              options={this.props.symbols}
+                              onChange={this.onChangeSymbol}
+                              placeholder="Select Symbol"
+                              isSearchable
+                              noOptionsMessage={()=> 'No symbol found.'}
+                              />
                             </div>
-                           {/*  <div className="form-group">
-                                <label htmlFor="exampleInputSymbol1">Symbol</label>
-                                <AsyncSelect
-                                className="form-control"
-                                value={this.state.symbol}
-                                onChange={(e)=> {this.onSearchChange(e);}}
-                                loadOptions={this.fetchData}
-                                defaultOptions={false}
-                                
-                                />
-                            </div> */}
                             <div className="form-group">
                                 <label htmlFor="exampleInputConditionl1">Condition</label>
                                 <select className="form-control" id="exampleInputCondition1"
