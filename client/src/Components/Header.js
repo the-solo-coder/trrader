@@ -14,7 +14,10 @@ export default class Header extends Component {
                             <a href="index3.html" className="nav-link">Home</a>
                         </li>
                         <li className="nav-item d-none d-sm-inline-block">
-                            <a href="#" className="nav-link">Contact</a>
+                            <a href="#" className="nav-link">Alerts</a>
+                        </li>
+                        <li className="nav-item d-none d-sm-inline-block">
+                            <a href="#" className="nav-link">Balance</a>
                         </li>
                     </ul>
                     {/* Right navbar links */}
@@ -125,6 +128,7 @@ export default class Header extends Component {
                                 <a href="#" className="dropdown-item dropdown-footer">See All Notifications</a>
                             </div>
                         </li>
+                        {/*Fullscreen toggle*/}
                         <li className="nav-item">
                             <a className="nav-link" data-widget="fullscreen" href="#" role="button">
                                 <i className="fas fa-expand-arrows-alt" />
@@ -135,10 +139,19 @@ export default class Header extends Component {
                                 <i className="fas fa-th-large" />
                             </a>
                         </li>
+                        <li className="nav-item">
+                            <a href="#" className="nav-link">Log In</a>
+                        </li>
+                        <li className="nav-item">
+                            <a href="#" className="nav-link">Logout</a>
+                        </li>
+                        <li className="nav-item">
+                            <a href="#" className="nav-link">Account</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
 
-                            )
+        )
     }
 }

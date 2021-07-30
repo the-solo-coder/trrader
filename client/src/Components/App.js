@@ -37,9 +37,6 @@ class App extends React.Component {
       <div class="wrapper" className="container-fluid">
         <div className="row">
           <Header/>
-          <Menu/>
-          <Dashboard/>
-          
           <nav>
             <div className="nav-wrapper blue darken-1">
               <a href="/" className="brand-logo">Trrader</a>
