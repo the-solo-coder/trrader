@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import webHost from '../../config/web';
+import webHost from '../../../config/web';
 
 import './AlertList.css';
-import Card from '../../UIElements/Card';
+import Card from '../../../UIElements/Card';
 
 const AlertList = () => {
  const [list, setList]= useState({});
