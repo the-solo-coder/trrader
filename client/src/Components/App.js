@@ -1,11 +1,34 @@
 import React from 'react';
-import axios from 'axios';
-import './App.css';
-import api from '../config/web';
-import CreateAlert from './Alerts/CreateAlert';
-import ListAlert from './Alerts/ListAlert';
+import MainNavigation from './Navigation/MainNavigation';
+//Creating Routes
+import {BrowserRouter as Router, Route, Redirect, Switch} from  'react-router-dom';
+
+// Pages
+import Home from './Pages/Home';
+import Login from './Pages/Login';
 
 
+const App = () => {
+
+// login and logout logic comes here in the future
+
+
+return (
+  <Router>
+    <MainNavigation/>
+    <main>
+      <Switch>
+      <Route path="/" exact><Home/></Route>
+      <Route path="/login"><Login/></Route>
+      </Switch>
+    </main>
+
+  </Router>
+)};
+
+export default App;
+
+/* 
 class App extends React.Component {
 
   constructor(props) {
@@ -13,7 +36,8 @@ class App extends React.Component {
 
     this.state = {
       alerts: [],
-      pairs: []
+      pairs: [],
+      price: 0
     }
   }
 
@@ -27,6 +51,18 @@ class App extends React.Component {
       .catch((error) => {
         console.log(error);
       });
+
+      axios.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
+      .then((res) => {
+        this.setState({
+          price: res.data.price
+        })
+        console.log(res.data.price)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
 
       axios.get('https://api.binance.com/api/v1/exchangeInfo')
       .then((res)=> {
@@ -43,7 +79,20 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="container-fluid">
+      
+      <Router>
+       <MainNavigation/>
+      <Switch>
+      <Route path="/" exact><Home price={10}/></Route>
+      <Route path="/login" exact><Login/></Route>
+      <Route path="/registration" exact><Registration/></Route>
+      <Route path="/account" exact><Account/></Route>
+      <Route path="/alerts" exact><Alerts/></Route> 
+      <Route path="/create-alerts" exact><AddAlert/></Route>
+      <Route path="/update-alerts" exact>< UpdateAlert/></Route>
+      <Route path="/balance" exact>< Balance/></Route>
+        <Redirect to="/"/> 
+        <div className="container-fluid">
         <div className="row">
           <nav>
             <div className="nav-wrapper blue darken-1">
@@ -56,8 +105,12 @@ class App extends React.Component {
           <div className="container"><ListAlert alerts={this.state.alerts}/></div>
         </div>
       </div>
-    );
+      
+      </Switch>
+    </Router>
+    ); 
   }
 }
 
 export default App;
+ */
