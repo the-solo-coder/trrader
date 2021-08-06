@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { useState, Component } from 'react';
 import axios from 'axios';
 import webHost from '../../config/web';
+
 export default class CreateAlert extends Component {
     constructor() {
         super();
@@ -60,10 +61,11 @@ export default class CreateAlert extends Component {
             creator: ''
         });
     }
+
     render() {
         return (
             <>
-            <div className="container">   
+            <div className="content-wrapper">   
                     <form  onSubmit={this.onSubmitAlert.bind(this)}>
                         <div className="card-Header">
                             <h4><i className="fa fa-bell"></i> New Alert</h4>
@@ -80,16 +82,11 @@ export default class CreateAlert extends Component {
                                 <label htmlFor="exampleInputConditionl1">Condition</label>
                                 <select className="form-control" id="exampleInputCondition1"
                                     value={this.state.condition}
-                                    onChange={(event) => this.onChangeCondition(event)}
-                                ><option>Select option</option>
-                                    <option> More than </option>
-                                    <option> Less than</option>
+                                    onChange={(event) => this.onChangeCondition(event)}>
+                                    <option>Select option</option>
+                                    <option value="1"> More than </option>
+                                    <option value="2"> Less than</option>
                                 </select>
-                                
-                            {/*     <input type="number" className="form-control" id="exampleInputCondition1" placeholder="Enter Condition"
-                                    value={this.state.condition}
-                                    onChange={(event) => this.onChangeCondition(event)}
-                                /> */}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleInputValue1">Value</label>
@@ -106,8 +103,11 @@ export default class CreateAlert extends Component {
 
                         </div>
                     </form>
+
             </div>
             </>
         )
     }
 }
+
+

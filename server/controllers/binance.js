@@ -42,6 +42,7 @@ module.exports.getAllAlerts = (req, res, next) => {
 
 module.exports.addAlert = (req, res, next) => {
     let newAlert = Alert(req.body);
+    console.log(newAlert);
 
     Alert.create(newAlert, (err, Alert) => {
         if (err) {
@@ -57,7 +58,6 @@ module.exports.updateAlert =  (req, res, next) => {
     let id = req.params.id;
 
     let updatedAlert = Alert({
-        "_id": id,
         "symbol": req.body.symbol,
         "condition": req.body.condition,
         "value": req.body.value
