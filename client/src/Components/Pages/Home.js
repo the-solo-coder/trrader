@@ -1,28 +1,51 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-
+import NumberFormat from 'react-number-format';
 
 
 const Home=(props)=>{
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState();
     
     useEffect(() => {
-        axios.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
-            .then((res) => {
-                setPrice(res.data.price)
-                console.log(res.data.price)
-            }
-        )
-        .catch((error) => {
+        const fetchPrice = () => {
+            axios.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
+                 .then((res) => {
+                 setPrice(res.data.price)
+                 console.log(res.data.price)
+                 }
+            )
+            .catch((error) => {
             console.log(error);
-        });
+            });
+        }
+
+        const interval = setInterval(() => fetchPrice(), 2000);
+        return () => {
+            clearInterval(interval);
+        }
+        
     }, [price]);
 
 return (
-    <div>
-    <h2> Home</h2>
-    <p>Bitcoin in USD: {price}</p>
-    </div>
+    
+   <React.Fragment>
+        <h2 center> Home</h2>
+       {price && (
+        <div>
+            <div>Bitcoin in USD: </div>  
+            <NumberFormat 
+                    value={price} 
+                    displayType={'text'}
+                    type="number"
+                    decimalScale={2} 
+                    thousandSeparator={true}
+                    prefix={'$'}
+            />  
+        </div>
+       )}
+       {!price && <p>Loading...</p>}
+   </React.Fragment>
+    
 )};
 
 export default Home;
