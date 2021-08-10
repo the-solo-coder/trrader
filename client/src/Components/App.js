@@ -37,11 +37,24 @@ class App extends React.Component {
     this.state = {
       alerts: [],
       pairs: [],
-      price: 0
+      price: 0,
+      symbols: []
     }
   }
 
+  symbolListMethod = (input) =>{
+    let list = [];
+    input.forEach(function(item){
+        list.push({value: item.symbol, label: item.symbol })
+    })
+    console.log(list);
+    return list;
+}
+
   componentDidMount() {
+
+    
+
     axios.get(api.URI+"/getAllAlerts")
       .then((res) => {
         this.setState({
@@ -66,15 +79,19 @@ class App extends React.Component {
 
       axios.get('https://api.binance.com/api/v1/exchangeInfo')
       .then((res)=> {
+        let symbolList= [];
+        res.data.
+        .forEach(function(item){
+          symbolList.push({value: item.symbol, label: item.symbol })
+        });
         this.setState({
-          pairs: res.data.symbols
+          symbols: symbolList
         })
       })
       .catch((err) => {
         console.log(err);
       });
-
-
+ 
   };
 
   render() {
@@ -101,7 +118,10 @@ class App extends React.Component {
           </nav>
         </div>
         <div className="row">
-          <div className="container"><CreateAlert alert={this.state.alerts[0]}  pairs={this.state.pairs}/></div>
+          {/* alert={this.state.alerts[0]} = This is provisory way to get creator id. 
+          Once the user login is created we can get _id.creator from there. Create alert
+          will only be accessible after someone login.  */}
+          <div className="container"><CreateAlert alert={this.state.alerts[0] ? this.state.alerts[0]: 0  }  symbols={this.state.symbols}/></div>
           <div className="container"><ListAlert alerts={this.state.alerts}/></div>
         </div>
       </div>
