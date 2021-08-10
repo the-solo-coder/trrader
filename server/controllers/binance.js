@@ -42,6 +42,7 @@ module.exports.getAllAlerts = (req, res, next) => {
 
 module.exports.addAlert = (req, res, next) => {
     let newAlert = Alert(req.body);
+    console.log(newAlert);
 
     Alert.create(newAlert, (err, Alert) => {
         if (err) {

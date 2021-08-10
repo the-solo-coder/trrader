@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { useState, Component } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
 import api from '../../config/web';
-
 
 export default class CreateAlert extends Component {
     constructor(props) {
@@ -16,18 +15,18 @@ export default class CreateAlert extends Component {
 
     onChangeSymbol = (value, { action }) => {
         switch (action) {
-          case "clear":
-            if (value === null) {
-              this.setState({symbol: ''})  
-            }
-            break;
-          case "select-option":
-            this.setState({symbol: value.value});
-            break;
-          default:
-            break;
+            case "clear":
+                if (value === null) {
+                    this.setState({ symbol: '' })
+                }
+                break;
+            case "select-option":
+                this.setState({ symbol: value.value });
+                break;
+            default:
+                break;
         }
-      };
+    };
 
     onChangeValue(event) {
         this.setState({
@@ -36,7 +35,7 @@ export default class CreateAlert extends Component {
     }
     onChangeCondition(event) {
         this.setState({
-            condition:parseInt(event.target.value)
+            condition: parseInt(event.target.value)
         })
     }
     onFormClear(event) {
@@ -51,7 +50,7 @@ export default class CreateAlert extends Component {
             value: this.state.value,
             creator: this.props.alert.creator
         })
-        .then((response) => {
+            .then((response) => {
                 console.log(response.data);
                 this.clearFields();
             })
@@ -66,35 +65,35 @@ export default class CreateAlert extends Component {
             condition: '',
             value: '',
             creator: ''
-        });       
+        });
     }
 
     render() {
         return (
             <>
-            <div className="container">   
-                    <form  onSubmit={this.onSubmitAlert.bind(this)}>
+                <div className="content-wrapper">
+                    <form onSubmit={this.onSubmitAlert.bind(this)}>
                         <div className="card-Header">
                             <h4><i className="fa fa-bell"></i> New Alert</h4>
                         </div>
                         <div className="card-body">
                             <div className="form-group">
-                              <Select 
-                              isClearable={true}
-                              options={this.props.symbols}
-                              onChange={this.onChangeSymbol}
-                              placeholder="Select Symbol"
-                              isSearchable
-                              noOptionsMessage={()=> 'No symbol found.'}
-                              />
+                                <Select
+                                    isClearable={true}
+                                    options={this.props.symbols}
+                                    onChange={this.onChangeSymbol}
+                                    placeholder="Select Symbol"
+                                    isSearchable
+                                    noOptionsMessage={() => 'No symbol found.'}
+                                />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleInputConditionl1">Condition</label>
                                 <select className="form-control" id="exampleInputCondition1"
                                     value={this.state.condition}
-                                    onChange={(event) => this.onChangeCondition(event)}
-                                ><option>Select option</option>
-                                    <option value= "1" > More than </option>
+                                    onChange={(event) => this.onChangeCondition(event)}>
+                                    <option>Select option</option>
+                                    <option value="1"> More than </option>
                                     <option value="2"> Less than</option>
                                 </select>
                             </div>
@@ -112,8 +111,11 @@ export default class CreateAlert extends Component {
 
                         </div>
                     </form>
-            </div>
+
+                </div>
             </>
         )
     }
 }
+
+
