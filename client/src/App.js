@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import CreateAlert from './Components/Alerts/CreateAlert';
 import Header from './Components/Navigation/Header';
+import Menu from './Components/Navigation/Menu';
 import Home from './Components/Pages/Home';
 import Footer from './Components/Navigation/Footer';
 import AlertList from './Components/Alerts/AlertList/AlertList';
@@ -16,10 +17,10 @@ const App = () => {
 
   // login and logout logic comes here in the future
   
-  
   return (
     <Router>
       <Header />
+      <Menu />
       <main>
         <Switch>
         <Route path="/" exact><Home/></Route>
