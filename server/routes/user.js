@@ -9,6 +9,7 @@ router.post('/login', userController.processUserLogin);
 /* POST Route for processing the Register page. */
 router.post('/register', userController.processUserRegistration);
 
+
 /* GET Route to perform user Logout */
 router.get('/logout', userController.processUserLogout);
 

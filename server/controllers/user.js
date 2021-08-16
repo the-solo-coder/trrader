@@ -57,15 +57,16 @@ module.exports.processUserLogin = (req, res, next) => {
 
 
 module.exports.processUserRegistration = (req, res, next) => {
-
+    const {username, email, password, displayName} = req.body.data;
     // instantiate a user object
     let newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        displayName: req.body.displayName
+        username: username,
+        email: email,
+        displayName: displayName
     })
+    console.log(newUser);
 
-    User.register(newUser, req.body.password, (err) => {
+    User.register(newUser, password, (err) => {
         if(err) {
             console.log("Error: Inserting new user");
             if(err.name == "UserExistsError") {
