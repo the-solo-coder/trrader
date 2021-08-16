@@ -38,9 +38,7 @@ export default class CreateAlert extends Component {
             condition: parseInt(event.target.value)
         })
     }
-    onFormClear(event) {
-        this.clearFields();
-    }
+    
     //add new Alert upon submission
     onSubmitAlert(event) {
         event.preventDefault();
@@ -52,21 +50,12 @@ export default class CreateAlert extends Component {
         })
             .then((response) => {
                 console.log(response.data);
-                this.clearFields();
             })
             .catch((error) => {
                 console.log(error);
             });
     }
 
-    //clear Fields after submission
-    clearFields() {
-        this.setState({
-            condition: '',
-            value: '',
-            creator: ''
-        });
-    }
 
     render() {
         return (

@@ -9,7 +9,6 @@ const Home = (props) => {
             axios.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
                 .then((res) => {
                     setPrice(res.data.price)
-                    console.log(res.data.price)
                 }
                 )
                 .catch((error) => {

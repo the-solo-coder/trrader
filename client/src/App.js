@@ -24,6 +24,7 @@ const App = () => {
       <main>
         <Switch>
         <Route path="/" exact><Home/></Route>
+        <Route path="/alerts"><AlertList/></Route>
         <Route path="/create-alert"><CreateAlert/></Route>
         </Switch>
       </main>
