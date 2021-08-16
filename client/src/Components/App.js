@@ -3,7 +3,7 @@ import axios from 'axios';
 import './App.css';
 import api from '../config/web';
 import CreateAlert from './Alerts/CreateAlert';
-import ListAlert from './Alerts/ListAlert';
+import ListAlert from './Alerts/AlertList/AlertList';
 
 
 class App extends React.Component {
@@ -17,18 +17,16 @@ class App extends React.Component {
     }
   }
 
-  symbolListMethod = (input) =>{
+  /*symbolListMethod = (input) =>{
     let list = [];
     input.forEach(function(item){
         list.push({value: item.symbol, label: item.symbol })
     })
     console.log(list);
     return list;
-}
+}*/
 
   componentDidMount() {
-
-    
 
     axios.get(api.URI+"/getAllAlerts")
       .then((res) => {
@@ -43,12 +41,11 @@ class App extends React.Component {
       axios.get('https://api.binance.com/api/v1/exchangeInfo')
       .then((res)=> {
         let symbolList= [];
-        res.data.symbols.forEach(function(item){
-          symbolList.push({value: item.symbol, label: item.symbol })
-        });
-        this.setState({
-          symbols: symbolList
-        })
+        res.data.symbols.forEach(function(item)
+          {symbolList.push({value: item.symbol, label: item.symbol})}
+        );
+        this.setState({symbols: symbolList})
+        console.log("SErgio si here: ", res.data.symbols);
       })
       .catch((err) => {
         console.log(err);
