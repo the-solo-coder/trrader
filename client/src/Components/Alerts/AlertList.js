@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import webHost from '../../../config/web';
+import webHost from '../../config/web';
 
-import './AlertList.css';
-import Card from '../../../UIElements/Card';
+import Card from '../../UIElements/Card'
 
 const AlertList = () => {
   const [list, setList] = useState([]);
@@ -29,22 +28,6 @@ const AlertList = () => {
   
     fetchData();
   }, [])
-
-  // const fetchData = async () => {
-  //   setLoading(true);
-  //   //calling the API to get all alerts from database ( locally)
-  //   await axios.get(webHost.URI + "/getAllAlerts")
-  //     .then((res) => {
-  //       setList(res.data.alertList)
-  //       setLoading(false);
-  //       //print all data received from database in the console web browser
-  //       //console.log("AlertList.js line 16: ", res.data.alertList)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setLoading(false);
-  //     });
-  // };
 
   if (loading) {
     return (

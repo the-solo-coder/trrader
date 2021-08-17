@@ -1,6 +1,7 @@
 let axios = require('axios');
 let express = require('express');
 let Alert = require('../models/alert');
+let mongoose = require('mongoose');
 
 const apiUrl = "https://api.binance.com/api/v3/ticker/price?symbol=";
 
@@ -42,7 +43,6 @@ module.exports.getAllAlerts = (req, res, next) => {
 
 module.exports.addAlert = (req, res, next) => {
     let newAlert = Alert(req.body);
-    console.log(newAlert);
 
     Alert.create(newAlert, (err, Alert) => {
         if (err) {
