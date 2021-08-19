@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import NavLinks from './NavLinks';
 
 export default class Header extends Component {
     render() {
@@ -125,12 +126,11 @@ export default class Header extends Component {
                                 <i className="fas fa-th-large" />
                             </a>
                         </li>
+                        <NavLinks/>
                         <li className="nav-item">
                             <a href="#" className="nav-link">Account</a>
                         </li>
-                        <li className="nav-item">
-                            <a href="#" className="nav-link">Log In</a>
-                        </li>
+                        
                         <li className="nav-item">
                             <a href="#" className="nav-link">Logout</a>
                         </li>
