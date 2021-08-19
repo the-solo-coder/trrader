@@ -14,46 +14,46 @@ let User = userModel.User; // alias
 
 module.exports.processUserLogin = (req, res, next) => {
     console.log(req.body);
-    // passport.authenticate('local', (err, user, info) => {
-    //     //if server err?
-    //     if (err) {
-    //         console.log(`Error: ${err.name}}`)
-    //         return res.json({success: false, msg: `Error: ${err.name}}`});
-    //     }
+    passport.authenticate('local', (err, user, info) => {
+        //if server err?
+        if (err) {
+            console.log(`Error: ${err.name}}`)
+            return res.json({success: false, msg: `Error: ${err.name}}`});
+        }
 
-    //     //is there a user login error?
-    //     if (!user) {
-    //         console.log('Error: Authentication Error!')
-    //         return res.json({success: false, msg: 'Error: Authentication Error!'});
-    //     } 
+        //is there a user login error?
+        if (!user) {
+            console.log('Error: Authentication Error!')
+            return res.json({success: false, msg: 'Error: Authentication Error!'});
+        } 
 
-    //     req.login(user, (err) => {
-    //         // server error?
-    //         if(err) {
-    //             return next(err);
-    //         }
+        req.login(user, (err) => {
+            // server error?
+            if(err) {
+                return next(err);
+            }
 
-    //         const payload = {
-    //             id: user._id,
-    //             displayName: user.displayName,
-    //             username: user.username,
-    //             email: user.email
-    //         };
+            const payload = {
+                id: user._id,
+                displayName: user.displayName,
+                username: user.username,
+                email: user.email
+            };
 
-    //         const authToken = jwt.sign(payload, DB.Secret, {
-    //             expiresIn: 604800 // 1 week
-    //         });
+            const authToken = jwt.sign(payload, DB.Secret, {
+                expiresIn: 604800 // 1 week
+            });
 
-    //         return res.json({success: true, msg: 'User Logged in Successfully!', user: {
-    //             id: user._id,
-    //             displayName: user.displayName,
-    //             username: user.username,
-    //             email: user.email
-    //         }, token: authToken});
+            return res.json({success: true, msg: 'User Logged in Successfully!', user: {
+                id: user._id,
+                displayName: user.displayName,
+                username: user.username,
+                email: user.email
+            }, token: authToken});
 
-    //     });
+        });
         
-    // })(req, res, next);
+    })(req, res, next);
 }
 
 
