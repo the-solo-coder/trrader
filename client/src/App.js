@@ -11,7 +11,6 @@ import Home from './Components/Pages/Home';
 import Footer from './Components/Navigation/Footer';
 import AlertList from './Components/Alerts/AlertList';
 
-
 const App = () => {
 
   // login and logout logic comes here in the future
@@ -25,6 +24,7 @@ const App = () => {
         <Route path="/" exact><Home/></Route>
         <Route path="/alerts"><AlertList/></Route>
         <Route path="/create-alert"><CreateAlert/></Route>
+        <Route path="/alerts/:id"><CreateAlert/></Route>
         </Switch>
       </main>
       <Footer />

@@ -11,7 +11,7 @@ let binanceController = require('../controllers/binance');
 
 router.get('/getAllAlerts', binanceController.getAllAlerts);
 
-router.delete('/:id', binanceController.deleteAlert);
+router.delete('/:id', binanceController.deleteAlert); 
 
 /* GET Route for the Price of a specific Crypto. */
 router.get('/:symbol', binanceController.displayPrice);
