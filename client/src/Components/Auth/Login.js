@@ -10,7 +10,7 @@ const Login = () => {
     }
     const handleSubmit = async evt => {
         evt.preventDefault();
-        const response = await axios.post("http://localhost:5000/api/user/login", userData);
+        const response = await axios.post("http://localhost:5000/api/user/login", {data: userData});
         console.log(response.data);
     }
     return (

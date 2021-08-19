@@ -2,7 +2,6 @@ import React from "react";
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
   Switch,
 } from "react-router-dom";
 import CreateAlert from "./Components/Alerts/CreateAlert";
@@ -10,7 +9,7 @@ import Header from "./Components/Navigation/Header";
 import Menu from "./Components/Navigation/Menu";
 import Home from "./Components/Pages/Home";
 import Footer from "./Components/Navigation/Footer";
-import AlertList from "./Components/Alerts/AlertList/AlertList";
+import AlertList from "./Components/Alerts/AlertList"
 import Register from "./Components/Auth/Register";
 import Login from "./Components/Auth/Login";
 

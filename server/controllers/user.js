@@ -1,89 +1,121 @@
-let express = require('express');
+let express = require("express");
 let router = express.Router();
-let mongoose = require('mongoose');
-let passport = require('passport');
+let mongoose = require("mongoose");
+let passport = require("passport");
+let bcrypt = require("bcryptjs");
+let config = require("config");
 
 // enable jwt
-let jwt = require('jsonwebtoken');
-let DB = require('../config/db');
+let jwt = require("jsonwebtoken");
+let DB = require("../config/db");
+
+// middleware
+let auth = require("../middleware/auth");
 
 //create user model instance
-let userModel = require('../models/user');
+let userModel = require("../models/user");
 let User = userModel.User; // alias
 
-
 module.exports.processUserLogin = (req, res, next) => {
-    console.log(req.body);
-    passport.authenticate('local', (err, user, info) => {
-        //if server err?
-        if (err) {
-            console.log(`Error: ${err.name}}`)
-            return res.json({success: false, msg: `Error: ${err.name}}`});
-        }
-
-        //is there a user login error?
-        if (!user) {
-            console.log('Error: Authentication Error!')
-            return res.json({success: false, msg: 'Error: Authentication Error!'});
-        } 
-
-        req.login(user, (err) => {
-            // server error?
-            if(err) {
-                return next(err);
-            }
+    const { email, password } = req.body.data;
+    User.findOne({ email }).then((user) => {
+        if (!user) return res.status(400).json({ msg: "User does not exists" });
+    
+        // Validate password
+        bcrypt.compare(password, user.password)
+        .then(isMatch => {
+            if(!isMatch) return res.status(400).json({msg: 'Invalid credentials'});
 
             const payload = {
                 id: user._id,
                 displayName: user.displayName,
                 username: user.username,
-                email: user.email
-            };
+                email: user.email,
+              };
 
-            const authToken = jwt.sign(payload, DB.Secret, {
-                expiresIn: 604800 // 1 week
-            });
+            jwt.sign(
+                payload,
+                config.get("jwtSecret"),
+                {
+                  expiresIn: 604800, // 1 week
+                },
+                (err, token) => {
+                  if (err) throw err;
+                  res.json({
+                    token,
+                    user: {
+                      id: user.id,
+                      username: user.username,
+                      email: user.email,
+                      displayName: user.displayName,
+                    },
+                  });
+                }
+              );
+        })
 
-            return res.json({success: true, msg: 'User Logged in Successfully!', user: {
-                id: user._id,
-                displayName: user.displayName,
-                username: user.username,
-                email: user.email
-            }, token: authToken});
+      });
+};
 
-        });
-        
-    })(req, res, next);
+module.exports.checkLoggedUser = (req, res, next) => {
+    User.findById(req.user.id)
+    .select('-password')
+    .then(user => res.json(user));
 }
-
 
 module.exports.processUserRegistration = (req, res, next) => {
-    const {username, email, password, displayName} = req.body.data;
-    // instantiate a user object
-    let newUser = new User({
-        username: username,
-        email: email,
-        displayName: displayName
-    })
+  const { username, email, password, displayName } = req.body.data;
 
-    User.register(newUser, password, (err) => {
-        if(err) {
-            console.log("Error: Inserting new user");
-            if(err.name == "UserExistsError") {
-                console.log('Error: User Already Exists!')
-                return res.json({success: false, msg: 'Error: User Already Exists!'});
-            } else {
-                console.log(`Error: ${err.name}}`)
-                return res.json({success: false, msg: `Error: ${err.name}}`});
+  User.findOne({ email }).then((user) => {
+    if (user) return res.status(400).json({ msg: "User already exists" });
+
+    const newUser = new User({
+      username,
+      email,
+      password,
+      displayName,
+    });
+
+    //Create salt & hash
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(newUser.password, salt, (err, hash) => {
+        if (err) throw err;
+
+        newUser.password = hash;
+        newUser.save().then((user) => {
+          const payload = {
+            id: user._id,
+            displayName: user.displayName,
+            username: user.username,
+            email: user.email,
+          };
+
+          jwt.sign(
+            payload,
+            config.get("jwtSecret"),
+            {
+              expiresIn: 604800, // 1 week
+            },
+            (err, token) => {
+              if (err) throw err;
+              res.json({
+                token,
+                user: {
+                  id: user.id,
+                  username: user.username,
+                  email: user.email,
+                  displayName: user.displayName,
+                },
+              });
             }
-        } else {
-            return res.json({success: true, msg: 'User Registered Successfully!'});
-        }
-
-    })
-}
+          );
+        });
+      });
+    });
+  });
+};
 
 module.exports.processUserLogout = (req, res, next) => {
-    req.logout();
-    res.json({success: true, msg: 'User Successfully Logged out!'});
-}
+  req.logout();
+  res.json({ success: true, msg: "User Successfully Logged out!" });
+};
