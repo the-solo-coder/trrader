@@ -129,10 +129,10 @@ export default class Header extends Component {
                             <a href="#" className="nav-link">Account</a>
                         </li>
                         <li className="nav-item">
-                            <a href="#" className="nav-link">Log In</a>
+                            <a href="register" className="nav-link">Register</a>
                         </li>
                         <li className="nav-item">
-                            <a href="#" className="nav-link">Logout</a>
+                            <a href="login" className="nav-link">Login</a>
                         </li>
                     </ul>
                 </nav>
