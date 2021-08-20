@@ -16,12 +16,12 @@ const AlertList = () => {
     axios.delete(`${api.URI}/${id}`)
       .then((response) => {
         console.log(response.data);
+        //reload page after deleting alert
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       });
-    //reload page after deleting alert
-    window.location.reload();
   }
  
   useEffect(() => {
