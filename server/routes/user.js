@@ -4,27 +4,17 @@ let router = express.Router();
 // middleware
 let auth = require("../middleware/auth");
 
-let userController = require('../controllers/user');
+let userController = require('../controllers/users');
 
-// @route POST /api/user/login
+// @route POST /api/user/signin
 // @desc Auth User
 // @access Public
-router.post('/login', userController.processUserLogin);
+router.post("/signin", userController.signin);
 
 // @route POST /api/user/register
 // @desc Register User
 // @access Public
-router.post('/register', userController.processUserRegistration);
+router.post("/signup", userController.signup);
 
-// @route GET /api/user
-// @desc Get User Data
-// @access Private
-router.get('/', auth, userController.checkLoggedUser);
-
-
-// @route GET /api/user/logout
-// @desc Perform User Logout
-// @access Private
-router.get('/logout', userController.processUserLogout);
 
 module.exports = router;

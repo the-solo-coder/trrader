@@ -13,8 +13,8 @@ let DB = require("../config/db");
 let auth = require("../middleware/auth");
 
 //create user model instance
-let userModel = require("../models/user");
-let User = userModel.User; // alias
+let User = require("../models/user");
+// alias
 
 module.exports.processUserLogin = (req, res, next) => {
     const { email, password } = req.body.data;

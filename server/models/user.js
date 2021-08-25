@@ -1,51 +1,22 @@
 let mongoose = require('mongoose');
-let passportLocalMongoose = require('passport-local-mongoose');
 
-// create a model class
-let User = mongoose.Schema({
-    username: {
-        type: String,
-        default: "",
-        trim: true,
-        required: "username is required"
+const userSchema = mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+    id: { type: String },
+    profilePicture: { type: String, default:"https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" },
+    createdAt: {
+      type: Date,
+      default: new Date(),
     },
-    password: {
-        type: String,
-        default: "",
-        trim: true,
-        required: "password is required"
-    },
-    email: {
-        type: String,
-        default: "",
-        trim: true,
-        unique: true,
-        required: "email is required"
-    },
-    displayName: {
-        type: String,
-        default: "",
-        trim: true,
-        required: "display name is required"
-    },
-    created: {
-        type: Date,
-        default: Date.now
-    },
-    update: {
-        type: Date,
-        default: Date.now
-    }
-},
-    {
-        collection: "users"
-    }
+  },
+  {
+    collection: "users",
+  }
 );
 
+const User = mongoose.model("User", userSchema);
 
-// configure options for User Model
-let options = ({ missingPasswordError: 'Wrong / Missing Password'});
-
-User.plugin(passportLocalMongoose, options);
-
-module.exports.User = mongoose.model('User', User);
+module.exports = User;

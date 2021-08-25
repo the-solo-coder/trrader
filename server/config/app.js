@@ -10,18 +10,12 @@ let session = require("express-session");
 let passport = require("passport");
 let config = require("config");
 
-let passportJWT = require("passport-jwt");
-let JWTStrategy = passportJWT.Strategy;
-let ExtractJWT = passportJWT.ExtractJwt;
-
-let passportLocal = require("passport-local");
-let localStrategy = passportLocal.Strategy;
 let flash = require("connect-flash");
 
 // database setup
 let mongoose = require("mongoose");
 let DB = config.get('URI');
-let jwtSecret = config.get('jwtSecret');
+
 
 //point mongoose to the db uri
 mongoose.connect(DB, {
@@ -44,8 +38,8 @@ let binanceRouter = require("../routes/binance");
 let app = express();
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "30mb", extended: true }));
+app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cookieParser());
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", req.headers.origin);
@@ -81,38 +75,6 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// passport user configuration
-
-// create a User model instance
-let userModel = require("../models/user");
-const { ExtractJwt } = require("passport-jwt");
-let User = userModel.User;
-
-// implemente a User Authentication Strategy
-passport.use(User.createStrategy());
-
-// serialize and deserialize the User Info
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-let jwtOptions = {};
-//store in local storage fromAuthHeaderAsBearerToken
-jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-jwtOptions.secretOrKey = jwtSecret;
-
-// configuring the strategy
-let strategy = new JWTStrategy(jwtOptions, (jwt_payload, done) => {
-  User.findById(jwt_payload.id)
-    .then((user) => {
-      return done(null, user);
-    })
-    .catch((err) => {
-      return done(err, false);
-    });
-});
-
-// activating the strategy
-passport.use(strategy);
 
 // routing
 app.use("/api/binance", binanceRouter);
