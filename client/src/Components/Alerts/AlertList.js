@@ -45,6 +45,15 @@ const AlertList = () => {
   } else {
     return (
       <div className="content-wrapper">
+        <div className="container-header">
+          <div className="container-fluid">
+            <div className="row mb-2">
+              <div className="col-sm-6">
+                <h1>List of Alerts</h1>
+              </div>
+            </div>
+          </div>
+        </div>
         {list.map(alert => (
           <div className="card card-primary card-outline" key={alert._id}>
             <div className="card-body">

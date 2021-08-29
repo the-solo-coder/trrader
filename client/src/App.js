@@ -10,6 +10,7 @@ import Menu from './Components/Navigation/Menu';
 import Home from './Components/Pages/Home';
 import Footer from './Components/Navigation/Footer';
 import AlertList from './Components/Alerts/AlertList';
+import ComingSoon from './Components/Pages/ComingSoon';
 
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/" exact><Home/></Route>
         <Route path="/alerts"><AlertList/></Route>
         <Route path="/create-alert"><CreateAlert/></Route>
+        <Route path="/comingSoon"><ComingSoon/></Route>
         </Switch>
       </main>
       <Footer />
