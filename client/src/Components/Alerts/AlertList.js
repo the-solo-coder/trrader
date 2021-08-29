@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import webHost from '../../config/web';
 
-import Card from '../../UIElements/Card'
-
 const AlertList = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,14 +9,10 @@ const AlertList = () => {
  
   useEffect(() => {
     const fetchData = async () => {
-      //setLoading(true);
-      //calling the API to get all alerts from database ( locally)
       await axios.get(webHost.URI + "/getAllAlerts")
         .then((res) => {
           setList(res.data.alertList)
           setLoading(false);
-          //print all data received from database in the console web browser
-          //console.log("AlertList.js line 16: ", res.data.alertList)
         })
         .catch((error) => {
           console.log(error);
@@ -31,15 +25,32 @@ const AlertList = () => {
 
   if (loading) {
     return (
-      <div className="content-wrapper"></div>
+      <div className="content-wrapper">
+        <div className="card">
+          <div className="card-body row">
+            <h2>Loading....</h2>
+          </div>
+        </div>
+      </div>
     );
   }
   if (list.length === 0) {
     return (
       <div className="content-wrapper">
-        <Card>
-          <h2>No alerts found.</h2>
-        </Card>
+         <div className="container-header">
+          <div className="container-fluid">
+            <div className="row mb-2">
+              <div className="col-sm-6">
+                <h1>List of Alerts</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="card">
+          <div className="card-body row">
+            <h2>No alerts found.</h2>
+          </div>
+        </div>
       </div>
     );
   } else {
