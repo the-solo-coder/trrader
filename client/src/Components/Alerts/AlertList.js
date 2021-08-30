@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory} from 'react-router-dom';
+import { Redirect, useHistory} from 'react-router-dom';
 
 import webHost from '../../config/web';
 import api from '../../config/web';
 import Card from '../../UIElements/Card';
+import Modal from '../../UIElements/Modal';
+import CreateAlert from './CreateAlert';
 
 const AlertList = () => {
   const [list, setList] = useState([]);
@@ -22,6 +24,11 @@ const AlertList = () => {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  const updateHandler = (id) => {
+    history.push('/alerts/update');
+    console.log(id);
   }
  
   useEffect(() => {
@@ -66,7 +73,7 @@ const AlertList = () => {
               <p className="card-text">
                 Send me a email if price if {alert.condition === 1 ? 'more than' : 'less than'} {alert.value}.
               </p>
-              <a href="/alerts/:alertId" className="card-link">Edit</a> 
+              <button onClick={() => updateHandler(alert._id)}>Edit</button> 
               &nbsp;
               <button onClick={() => deleteHandler(alert._id)}>Delete</button>
             </div>

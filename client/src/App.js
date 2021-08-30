@@ -10,6 +10,7 @@ import Menu from './Components/Navigation/Menu';
 import Home from './Components/Pages/Home';
 import Footer from './Components/Navigation/Footer';
 import AlertList from './Components/Alerts/AlertList';
+import UpdateAlert from './Components/Pages/UpdateAlert';
 
 const App = () => {
 
@@ -24,7 +25,7 @@ const App = () => {
         <Route path="/" exact><Home/></Route>
         <Route path="/alerts"><AlertList/></Route>
         <Route path="/create-alert"><CreateAlert/></Route>
-        <Route path="/alerts/:id"><CreateAlert/></Route>
+        <Route path="/alerts/update"><UpdateAlert/></Route>
         </Switch>
       </main>
       <Footer />
