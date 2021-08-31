@@ -17,7 +17,6 @@ module.exports.displayPrice = (req, res, next) => {
 };
 
 module.exports.deleteAlert = (req, res, next) => {
-    
     let id = req.params.id;
     Alert.deleteOne({_id: id}, (err) => {
         if(err) { 

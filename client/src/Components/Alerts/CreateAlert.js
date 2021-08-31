@@ -46,16 +46,16 @@ const CreateAlert = () => {
         }
     };
 
-    const onChangeValue = (event)=> {
+    const onChangeValue = (event) => {
         setTargetValue(event.target.value);
     }
 
     const onChangeCondition = (event) => {
         setCondition(parseInt(event.target.value));
     }
-    
+
     //add new Alert upon submission
-    const onSubmitAlert= (event) =>  {
+    const onSubmitAlert = (event) => {
         event.preventDefault();
         axios.post(api.URI + '/addAlert', {
             symbol,
@@ -69,7 +69,6 @@ const CreateAlert = () => {
             .catch((error) => {
                 console.log(error);
             });
-        
     }
 
     return (
@@ -91,7 +90,7 @@ const CreateAlert = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="exampleInputConditionl1">Condition</label>
+                                <label >Condition</label>
                                 <select className="form-control" 
                                     value={condition}
                                     onChange={onChangeCondition}>

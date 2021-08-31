@@ -1,17 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import webHost from '../../config/web';
+import { Redirect, useHistory} from 'react-router-dom';
 
-import Card from '../../UIElements/Card'
+import webHost from '../../config/web';
+import api from '../../config/web';
+import Card from '../../UIElements/Card';
+import Modal from '../../UIElements/Modal';
+import CreateAlert from './CreateAlert';
 
 const AlertList = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const history = useHistory();
 
+  const deleteHandler = (id) => {
+    //delete alert using the id
+    axios.delete(`${api.URI}/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        //reload page after deleting alert
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const updateHandler = (id) => {
+    history.push('/alerts/update');
+    console.log(id);
+  }
  
   useEffect(() => {
     const fetchData = async () => {
-      //setLoading(true);
       //calling the API to get all alerts from database ( locally)
       await axios.get(webHost.URI + "/getAllAlerts")
         .then((res) => {
@@ -52,8 +73,9 @@ const AlertList = () => {
               <p className="card-text">
                 Send me a email if price if {alert.condition === 1 ? 'more than' : 'less than'} {alert.value}.
               </p>
-              <a href="/" className="card-link">Edit</a>
-              <a href="/" className="card-link">Delete</a>
+              <button onClick={() => updateHandler(alert._id)}>Edit</button> 
+              &nbsp;
+              <button onClick={() => deleteHandler(alert._id)}>Delete</button>
             </div>
           </div>
         ))}
