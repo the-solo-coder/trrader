@@ -53,6 +53,20 @@ module.exports.addAlert = (req, res, next) => {
     });
 }
 
+module.exports.getAlertToUpdate = (req, res) => {
+    let id = req.params.id;
+    console.log("HEREEEE " + id);
+    Alert.findById({_id: id}, (err, alert) => {
+        if (err) {
+            console.log(err);
+            res.end(err);
+        } else {
+            console.log(alert);
+            res.status(200).send({alert});
+        }
+    })
+}
+
 module.exports.updateAlert =  (req, res, next) => {
     let id = req.params.id;
 

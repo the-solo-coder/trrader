@@ -27,7 +27,7 @@ const AlertList = () => {
   }
 
   const updateHandler = (id) => {
-    history.push('/alerts/update');
+    history.push(`/alerts/update/${id}`);
     console.log(id);
   }
  
