@@ -16,12 +16,12 @@ const AlertList = () => {
     axios.delete(`${api.URI}/${id}`)
       .then((response) => {
         console.log(response.data);
+      //reload page after deleting alert
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       });
-    //reload page after deleting alert
-    window.location.reload();
   }
  
   useEffect(() => {
@@ -31,8 +31,6 @@ const AlertList = () => {
         .then((res) => {
           setList(res.data.alertList)
           setLoading(false);
-          //print all data received from database in the console web browser
-          //console.log("AlertList.js line 16: ", res.data.alertList)
         })
         .catch((error) => {
           console.log(error);
@@ -45,20 +43,46 @@ const AlertList = () => {
 
   if (loading) {
     return (
-      <div className="content-wrapper"></div>
+      <div className="content-wrapper">
+        <div className="card">
+          <div className="card-body row">
+            <h2>Loading....</h2>
+          </div>
+        </div>
+      </div>
     );
   }
   if (list.length === 0) {
     return (
       <div className="content-wrapper">
-        <Card>
-          <h2>No alerts found.</h2>
-        </Card>
+         <div className="container-header">
+          <div className="container-fluid">
+            <div className="row mb-2">
+              <div className="col-sm-6">
+                <h1>List of Alerts</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="card">
+          <div className="card-body row">
+            <h2>No alerts found.</h2>
+          </div>
+        </div>
       </div>
     );
   } else {
     return (
       <div className="content-wrapper">
+        <div className="container-header">
+          <div className="container-fluid">
+            <div className="row mb-2">
+              <div className="col-sm-6">
+                <h1>List of Alerts</h1>
+              </div>
+            </div>
+          </div>
+        </div>
         {list.map(alert => (
           <div className="card card-primary card-outline" key={alert._id}>
             <div className="card-body">
