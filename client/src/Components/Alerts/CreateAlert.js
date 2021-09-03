@@ -11,6 +11,75 @@ const CreateAlert = () => {
   const [targetValue, setTargetValue] = useState()
   const [symbols, setSymbols] = useState([])
 
+    const onChangeValue = (event) => {
+        setTargetValue(event.target.value);
+    }
+
+    const onChangeCondition = (event) => {
+        setCondition(parseInt(event.target.value));
+    }
+
+    //add new Alert upon submission
+    const onSubmitAlert = (event) => {
+        event.preventDefault();
+        axios.post(api.URI + '/addAlert', {
+            symbol,
+            condition,
+            value: targetValue
+        })
+            .then((response) => {
+                console.log(response.data);
+                history.push('/alerts');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    return (
+        <React.Fragment>
+           <div className="content-wrapper">
+                    <form onSubmit={onSubmitAlert}>
+                        <div className="card-Header">
+                            <h4><i className="fa fa-bell"></i> New Alert</h4>
+                        </div>
+                        <div className="card-body">
+                            <div className="form-group">
+                                <Select
+                                    isClearable={true}
+                                    options={symbols}
+                                    onChange={onChangeSymbol}
+                                    placeholder="Select Symbol"
+                                    isSearchable
+                                    noOptionsMessage={() => 'No symbol found.'}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label >Condition</label>
+                                <select className="form-control" 
+                                    value={condition}
+                                    onChange={onChangeCondition}>
+                                    <option>Select option</option>
+                                    <option value="1"> More than </option>
+                                    <option value="2"> Less than</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Target Value</label>
+                                <input type="number" className="form-control"  placeholder="Enter Value"
+                                    value={targetValue}
+                                    onChange={onChangeValue}
+                                />
+                            </div>
+                        </div>
+                        <div className="card-footer">
+                            <button type="submit" className="btn btn-primary">Submit</button>&nbsp;
+                        </div>
+                    </form>
+                </div>  
+        </React.Fragment>
+    );
+
   const history = useHistory()
 
   useEffect(() => {
@@ -28,7 +97,6 @@ const CreateAlert = () => {
           console.log(err)
         })
     }
-
     fetchSymbolsList()
   }, [])
 
