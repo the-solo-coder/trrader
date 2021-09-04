@@ -67,23 +67,14 @@ module.exports.getAlertToUpdate = (req, res) => {
     })
 }
 
-module.exports.updateAlert =  (req, res, next) => {
-    let id = req.params.id;
+module.exports.updateAlert = async (req, res) => {
+    const {id: _id} = req.params;
+    const alert = req.body;
+    console.log(alert);
+    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No alert with that id');
+    const updatedAlert = await Alert.findByIdAndUpdate(_id, {...alert, _id}, {new: true});
 
-    let updatedAlert = Alert({
-        "symbol": req.body.symbol,
-        "condition": req.body.condition,
-        "value": req.body.value
-    });
-
-    Alert.updateOne({_id: id}, updatedAlert, (err) => {
-        if (err) {
-            console.log(err);
-            res.end(err);    
-        } else { 
-            console.log("Successfully updated the alert!"); 
-        }
-    });
+    res.json(updatedAlert);
 }
 
 

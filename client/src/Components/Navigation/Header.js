@@ -42,11 +42,18 @@ const Header = () => {
               </li>
             </>
           ) : (
+            <>
+            <li className="nav-item">
+            <a href="#" className="nav-link">
+              Account
+            </a>
+          </li>
             <li className="nav-item">
               <a href="#" className="nav-link" onClick={logout}>
                 Logout
               </a>
             </li>
+            </>
           )}
         </ul>
       </nav>

@@ -39,8 +39,8 @@ const UpdateAlert = () => {
           .then(async (res) => {
             setSymbol(res.data.alert.symbol);
             setCondition(res.data.alert.condition);
-            setTargetValue(res.data.alert.value);
-            await console.log(targetValue);
+            setValue(res.data.alert.value);
+            await console.log(value);
           })
           .catch((error) => {
             console.log(error);
@@ -53,7 +53,7 @@ const UpdateAlert = () => {
 
   const [symbol, setSymbol] = useState(alertData.symbol);
   const [condition, setCondition] = useState(alertData.condition);
-  const [targetValue, setTargetValue] = useState(alertData.value);
+  const [value, setValue] = useState(alertData.value);
 
   const onChangeSymbol = (value, { action }) => {
     switch (action) {
@@ -71,7 +71,7 @@ const UpdateAlert = () => {
   };
 
   const onChangeValue = (event) => {
-    setTargetValue(event.target.value);
+    setValue(event.target.value);
   };
 
   const onChangeCondition = (event) => {
@@ -80,7 +80,8 @@ const UpdateAlert = () => {
 
   const onUpdateAlert = (event) => {
     event.preventDefault();
-    dispatch(updateAlert());
+    dispatch(updateAlert(id, {symbol, condition, value}));
+    history.push("/alerts");
   };
 
   return (
@@ -124,7 +125,7 @@ const UpdateAlert = () => {
                 className="form-control"
                 placeholder="Enter Value"
                 name="value"
-                value={targetValue}
+                value={value}
                 onChange={onChangeValue}
               />
             </div>

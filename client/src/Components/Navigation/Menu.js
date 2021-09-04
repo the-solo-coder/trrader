@@ -105,7 +105,8 @@ const Menu = () => {
                   <p>Home</p>
                 </a>
               </li>
-
+              {user && (
+                <>
               <li className="nav-item">
                 <a href="#" className="nav-link">
                   <i className="nav-icon fas fa-copy" />
@@ -142,7 +143,8 @@ const Menu = () => {
                   <i className="nav-icon fas fa-th" />
                   <p>History</p>
                 </a>
-              </li>
+              </li></>
+              )}
             </ul>
           </nav>
           {/* /.sidebar-menu */}
