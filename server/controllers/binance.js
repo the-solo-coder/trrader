@@ -5,7 +5,6 @@ let mongoose = require('mongoose');
 
 const apiUrl = "https://api.binance.com/api/v3/ticker/price?symbol=";
 
-
 module.exports.displayPrice = (req, res, next) => {
     axios(apiUrl+req.params.symbol)
     .then(result => {
