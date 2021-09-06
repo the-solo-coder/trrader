@@ -12,7 +12,8 @@ const Header = () => {
     const token = user?.token;
     if (token) {
       const decodedToken = decode(token);
-      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+      const isTokenExpired = decodedToken.exp * 1000 < new Date().getTime()
+      if (isTokenExpired) logout();
     }
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);

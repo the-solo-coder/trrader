@@ -12,25 +12,21 @@ let config = require("config");
 
 let flash = require("connect-flash");
 
-// database setup
-let mongoose = require("mongoose");
-let DB = config.get('URI');
 
+// database setup
+let mongoose = require('mongoose');
+let DB = require('./db');
 
 //point mongoose to the db uri
-mongoose.connect(DB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-});
+mongoose.connect(DB.URI, {useNewUrlParser: true, useUnifiedTopology: true});
 
 let mongoDB = mongoose.connection;
 
-mongoDB.on("error", console.error.bind(console, "Connection Error:"));
+mongoDB.on('error', console.error.bind(console, 'Connection Error:'));
 
-mongoDB.once("open", () => {
-  console.log("Connected to MongoDB...");
-});
+mongoDB.once('open', () => {
+  console.log('Connected to MongoDB...');
+}); 
 
 let usersRouter = require("../routes/user");
 let binanceRouter = require("../routes/binance");

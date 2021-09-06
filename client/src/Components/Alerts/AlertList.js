@@ -17,7 +17,6 @@ const AlertList = () => {
     //delete alert using the id
     axios.delete(`${api.URI}/${id}`)
       .then((response) => {
-        console.log(response.data);
         //reload page after deleting alert
         window.location.reload();
       })
@@ -26,9 +25,8 @@ const AlertList = () => {
       });
   }
 
-  const updateHandler = (id) => {
+  const update = (id) => {
     history.push(`/alerts/update/${id}`);
-    console.log(id);
   }
  
   useEffect(() => {
@@ -73,7 +71,7 @@ const AlertList = () => {
               <p className="card-text">
                 Send me a email if price if {alert.condition === 1 ? 'more than' : 'less than'} {alert.value}.
               </p>
-              <button onClick={() => updateHandler(alert._id)}>Edit</button> 
+              <button onClick={() => update(alert._id)}>Edit</button> 
               &nbsp;
               <button onClick={() => deleteHandler(alert._id)}>Delete</button>
             </div>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import Select from 'react-select';
 
 import api from '../../config/web';
+import { BINANCE_URL } from '../../constants/constants';
 
 const CreateAlert = () => {
     const [symbol, setSymbol] = useState();
@@ -15,7 +16,7 @@ const CreateAlert = () => {
    
     useEffect(() => {
       const fetchSymbolsList =  () => {
-        axios.get('https://api.binance.com/api/v1/exchangeInfo')
+        axios.get(`${BINANCE_URL}/exchangeInfo`)
             .then((res)=> {
                 let symbolList= [];
                 res.data.symbols.forEach(function(item)

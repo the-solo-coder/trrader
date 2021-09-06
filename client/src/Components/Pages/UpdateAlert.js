@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import webHost from '../../config/web';
 
 import api from "../../config/web";
+import { BINANCE_URL } from "../../constants/constants";
 
 const UpdateAlert = () => {
   const [alertData, setAlertData] = useState({});
@@ -20,7 +21,7 @@ const UpdateAlert = () => {
   useEffect(() => {
     const fetchSymbolsList = () => {
       axios
-        .get("https://api.binance.com/api/v1/exchangeInfo")
+        .get(`${BINANCE_URL}/exchangeInfo`)
         .then((res) => {
           let symbolList = [];
           res.data.symbols.forEach(function (item) {

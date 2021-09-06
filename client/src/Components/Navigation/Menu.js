@@ -4,12 +4,13 @@ import { useDispatch } from "react-redux";
 import { useHistory, Link, useLocation } from "react-router-dom";
 import { Avatar } from "@material-ui/core";
 import decode from "jwt-decode";
+import {PROFILE} from "../../constants/constants";
 
 const Menu = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem(PROFILE)));
   useEffect(() => {
     const token = user?.token;
     if (token) {

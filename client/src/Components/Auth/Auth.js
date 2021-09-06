@@ -39,7 +39,7 @@ const Auth = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleShowPassword = () =>
+  const handleShowPasswordClicked = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
 
   return (
@@ -77,7 +77,7 @@ const Auth = () => {
               label="Password"
               handleChange={handleChange}
               type={showPassword ? "text" : "password"}
-              handleShowPassword={handleShowPassword}
+              handleShowPassword={handleShowPasswordClicked}
             />
             <Input
               name="confirmPassword"
