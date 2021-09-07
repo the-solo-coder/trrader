@@ -13,7 +13,6 @@ import AlertList from './Components/Alerts/AlertList';
 import Login from './Components/Pages/Login';
 
 
-
 const App = () => {
 
   // login and logout logic comes here in the future

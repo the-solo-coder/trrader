@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from 'react-dom';
-
+import './Login.css';
+import {Button, Form, FormGroup, Label,Input} from 'reactstrap';
 
 class Login extends React.Component{
     state={
@@ -8,28 +8,39 @@ class Login extends React.Component{
         password:''
     }
 
-
 handleChange=(e)=>{
     const {name, value}=e.target
     this.setState({[name]:value})
 }
 
 handleSubmit=(e)=>{
-
+    e.preventDefault()
 }
+
 render(){
   return(
-    <div className="content-wrapper">
-        <form onSubmit={this.handleSubmit}>
-            <input type='email'name='email' placeholder='email...' required onChange={this.handleChange}/>
-            <input type='password'name='pwd' placeholder='password...' required onChange={this.handleChange}/>
-                <button onSubmit={this.handleSubmit}>Log in</button>
-        </form>
-    </div>
+    
+    <Form className="login-form">
+        
+        <h1 className=" text-center" > Trrader Login</h1>
+        <h2 className="text-center">Welcome</h2>
+    <FormGroup>
+        <Label>Email</Label>
+        <Input type="email" placeholder="Email"></Input>
+    </FormGroup>
+
+    <FormGroup>
+        <Label>Password</Label>
+        <Input type="password" placeholder="Password"></Input>
+    </FormGroup>
+
+    <Button className="btn-lg btn-dark btn-block">Login</Button>
+    <span className="p-2"></span>
+    <p> <a  href="/forgot-password" >Forgot Password</a></p>  
+</Form>      
         )
     }
 }
+
     
-
-
 export default Login;

@@ -5,7 +5,6 @@ import api from '../config/web';
 import CreateAlert from './Alerts/CreateAlert';
 import ListAlert from './Alerts/AlertList/AlertList';
 
-
 class App extends React.Component {
 
   constructor(props) {
