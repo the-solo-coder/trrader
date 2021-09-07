@@ -13,6 +13,11 @@ import AlertList from './Components/Alerts/AlertList';
 import Login from './Components/Pages/Login';
 
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 const App = () => {
 
   // login and logout logic comes here in the future
