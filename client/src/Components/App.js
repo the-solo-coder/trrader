@@ -44,7 +44,6 @@ class App extends React.Component {
           {symbolList.push({value: item.symbol, label: item.symbol})}
         );
         this.setState({symbols: symbolList})
-        console.log("SErgio si here: ", res.data.symbols);
       })
       .catch((err) => {
         console.log(err);
