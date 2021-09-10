@@ -4,7 +4,6 @@ import { Redirect, useHistory} from 'react-router-dom';
 
 import webHost from '../../config/web';
 import api from '../../config/web';
-import Card from '../../UIElements/Card';
 import Modal from '../../UIElements/Modal';
 import CreateAlert from './CreateAlert';
 
