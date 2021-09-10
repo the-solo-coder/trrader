@@ -7,7 +7,7 @@ import Home from "./Components/Pages/Home";
 import Footer from "./Components/Navigation/Footer";
 import AlertList from "./Components/Alerts/AlertList";
 import Auth from "./Components/Auth/Auth";
-import UpdateAlert from "./Components/Pages/UpdateAlert";
+import UpdateAlert from "./Components/Alerts/UpdateAlert";
 
 const App = () => {
 
