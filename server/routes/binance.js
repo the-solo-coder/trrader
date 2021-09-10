@@ -21,4 +21,10 @@ router.get('/:symbol', binanceController.displayPrice);
 router.post('/addAlert', binanceController.addAlert);
 //router.post('/addAlert', passport.authenticate('jwt', {session: false}),  binanceController.addAlert);
 
+
+router.get('/updateAlert/:id', binanceController.getAlertToUpdate);
+
+/* PATCH Route to update an Alert in the Database. */
+router.patch('/updateAlert/:id', binanceController.updateAlert);
+
 module.exports = router;

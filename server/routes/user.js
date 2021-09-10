@@ -1,15 +1,20 @@
 let express = require('express');
 let router = express.Router();
 
-let userController = require('../controllers/user');
+// middleware
+let auth = require("../middleware/auth");
 
-/* POST Route for processing the Login page. */
-router.post('/login', userController.processUserLogin);
+let userController = require('../controllers/users');
 
-/* POST Route for processing the Register page. */
-router.post('/register', userController.processUserRegistration);
+// @route POST /api/user/signin
+// @desc Auth User
+// @access Public
+router.post("/signin", userController.signin);
 
-/* GET Route to perform user Logout */
-router.get('/logout', userController.processUserLogout);
+// @route POST /api/user/register
+// @desc Register User
+// @access Public
+router.post("/signup", userController.signup);
+
 
 module.exports = router;
