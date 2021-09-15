@@ -63,3 +63,56 @@ module.exports.signup = async (req, res) => {
     res.status(500).json({ message: "Something went wrong." });
   }
 };
+
+//test-Richard
+// module.exports.getUserById = (req, res) => {
+//   let id = req.params.id;
+//   try {
+//     User.findById({ _id: id }, (err, user) => {
+//       if (err) {
+//         console.log("This did not work");
+//         res.status(500).json({ message: "Something went wrong." });
+//       } else {
+//         console.log(user);
+//       }
+//     })
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ message: "Something went wrong." });
+//   }
+// }
+
+// module.exports.getUserById = (req, res) => {
+//   let id = req.params.id;
+//   User.findById({_id: id}, (err, individual) => {
+//       if (err) {
+//           console.log(err);
+//           res.end(err);
+//       } else {
+//           console.log(individual);
+//           res.status(200).send({individual});
+//       }
+//   })
+// }
+
+module.exports.getUserById = (req, res) => {
+  let id = req.params.id;
+  const loggedInUser = User.findOne({_id: id}, (err, loggedInUser) =>{
+    if (!loggedInUser) {
+      console.log("This user does not exist.");
+    } else {
+      console.log(loggedInUser);
+      res.status(200).send({ loggedInUser });
+    }
+  });
+  // User.findById({ _id: id }, (err, individual) => {
+  //   if (err) {
+  //     console.log("Hello");
+  //     // res.json({ error: err });
+  //   } else {
+  //     console.log("Good-bye");
+  //     // console.log(individual);
+  //     // res.status(200).send({ individual });
+  //   }
+  // })
+}

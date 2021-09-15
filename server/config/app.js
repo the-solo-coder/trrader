@@ -30,6 +30,7 @@ mongoDB.once('open', () => {
 
 let usersRouter = require("../routes/user");
 let binanceRouter = require("../routes/binance");
+const User = require("../models/user");
 
 let app = express();
 

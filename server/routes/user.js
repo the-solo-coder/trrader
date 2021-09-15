@@ -16,5 +16,7 @@ router.post("/signin", userController.signin);
 // @access Public
 router.post("/signup", userController.signup);
 
+//test-Richard
+router.get('/:id', userController.getUserById);
 
 module.exports = router;
