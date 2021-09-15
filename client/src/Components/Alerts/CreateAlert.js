@@ -5,14 +5,14 @@ import Select from 'react-select'
 
 import api from '../../config/web';
 import { BINANCE_URL } from '../../constants/constants';
-import {PROFILE} from "../../constants/constants";
+import LOCAL_STORAGE_KEYS from '../../constants/loaclStorageKeys';
 
 const CreateAlert = () => {
     const [symbol, setSymbol] = useState();
     const [condition, setCondition] = useState();
     const [targetValue, setTargetValue] = useState();
     const [symbols, setSymbols] = useState([]);
-    const creator = JSON.parse(localStorage.getItem(PROFILE)).result._id;
+    const creator = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE)).result._id;
 
     const history = useHistory();
    
