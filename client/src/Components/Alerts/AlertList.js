@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Redirect, useHistory} from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 import webHost from '../../config/web';
 import api from '../../config/web';
 import CreateAlert from './CreateAlert';
+import { PROFILE } from "../../constants/constants";
 
 const AlertList = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
+  const creatorId = JSON.parse(localStorage.getItem(PROFILE)).result._id;
 
   const deleteHandler = (id) => {
     //delete alert using the id
@@ -26,7 +28,7 @@ const AlertList = () => {
   const update = (id) => {
     history.push(`/alerts/update/${id}`);
   }
- 
+
   useEffect(() => {
     const fetchData = async () => {
       //calling the API to get all alerts from database ( locally)
@@ -40,7 +42,7 @@ const AlertList = () => {
           setLoading(false);
         });
     };
-  
+
     fetchData();
   }, [])
 
@@ -58,7 +60,7 @@ const AlertList = () => {
   if (list.length === 0) {
     return (
       <div className="content-wrapper">
-         <div className="container-header">
+        <div className="container-header">
           <div className="container-fluid">
             <div className="row mb-2">
               <div className="col-sm-6">
@@ -86,14 +88,14 @@ const AlertList = () => {
             </div>
           </div>
         </div>
-        {list.map(alert => (
+        {list.filter(alert => alert.creator == creatorId).map(alert => (
           <div className="card card-primary card-outline" key={alert._id}>
             <div className="card-body">
               <h5 className="class-title">Symbol: {alert.symbol}</h5>
               <p className="card-text">
                 Send me a email if price if {alert.condition === 1 ? 'more than' : 'less than'} {alert.value}.
               </p>
-              <button onClick={() => update(alert._id)}>Edit</button> 
+              <button onClick={() => update(alert._id)}>Edit</button>
               &nbsp;
               <button onClick={() => deleteHandler(alert._id)}>Delete</button>
             </div>
