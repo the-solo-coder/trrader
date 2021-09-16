@@ -5,12 +5,14 @@ import Select from 'react-select'
 
 import api from '../../config/web';
 import { BINANCE_URL } from '../../constants/constants';
+import LOCAL_STORAGE_KEYS from '../../constants/loaclStorageKeys';
 
 const CreateAlert = () => {
     const [symbol, setSymbol] = useState();
     const [condition, setCondition] = useState();
     const [targetValue, setTargetValue] = useState();
     const [symbols, setSymbols] = useState([]);
+    const creator = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE)).result._id;
 
     const history = useHistory();
    
@@ -61,7 +63,8 @@ const CreateAlert = () => {
         axios.post(api.URI + '/addAlert', {
             symbol,
             condition,
-            value: targetValue
+            value: targetValue,
+            creator
         })
             .then((response) => {
                 console.log(response.data);
