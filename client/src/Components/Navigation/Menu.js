@@ -28,7 +28,7 @@ const Menu = () => {
     <div>
       <aside className="main-sidebar sidebar-dark-primary elevation-4">
         {/* Brand Logo */}
-        <a href="index3.html" className="brand-link">
+        <a href="/" className="brand-link">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 400 400"
