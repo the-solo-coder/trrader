@@ -5,7 +5,6 @@ let mongoose = require('mongoose');
 
 const apiUrl = "https://api.binance.com/api/v3/ticker/price?symbol=";
 
-
 module.exports.displayPrice = (req, res, next) => {
     axios(apiUrl+req.params.symbol)
     .then(result => {
@@ -17,7 +16,6 @@ module.exports.displayPrice = (req, res, next) => {
 };
 
 module.exports.deleteAlert = (req, res, next) => {
-    
     let id = req.params.id;
     Alert.deleteOne({_id: id}, (err) => {
         if(err) { 
@@ -54,23 +52,28 @@ module.exports.addAlert = (req, res, next) => {
     });
 }
 
-module.exports.updateAlert =  (req, res, next) => {
+module.exports.getAlertToUpdate = (req, res) => {
     let id = req.params.id;
-
-    let updatedAlert = Alert({
-        "symbol": req.body.symbol,
-        "condition": req.body.condition,
-        "value": req.body.value
-    });
-
-    Alert.updateOne({_id: id}, updatedAlert, (err) => {
+    console.log("HEREEEE " + id);
+    Alert.findById({_id: id}, (err, alert) => {
         if (err) {
             console.log(err);
-            res.end(err);    
-        } else { 
-            console.log("Successfully updated the alert!"); 
+            res.end(err);
+        } else {
+            console.log(alert);
+            res.status(200).send({alert});
         }
-    });
+    })
+}
+
+module.exports.updateAlert = async (req, res) => {
+    const {id: _id} = req.params;
+    const alert = req.body;
+    console.log(alert);
+    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No alert with that id');
+    const updatedAlert = await Alert.findByIdAndUpdate(_id, {...alert, _id}, {new: true});
+
+    res.json(updatedAlert);
 }
 
 
