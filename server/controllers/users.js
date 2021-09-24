@@ -10,7 +10,7 @@ module.exports.signin = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email });
     if (!existingUser)
-      return res.status(404).json({ message: "User doesn't exists." });
+    return res.status(404).send("User doesn't exists!");
 
     const isPasswordCorrect = await bcrypt.compare(
       password,
@@ -18,7 +18,7 @@ module.exports.signin = async (req, res) => {
     );
 
     if (!isPasswordCorrect)
-      return res.status(400).json({ message: "Invalid credentials." });
+    return res.status(400).send("Invalid password!");
 
     const token = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
@@ -28,7 +28,7 @@ module.exports.signin = async (req, res) => {
     res.status(200).json({ result: existingUser, token });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Something went wrong." });
+    res.status(500).send("Something went wrong.");
   }
 };
 

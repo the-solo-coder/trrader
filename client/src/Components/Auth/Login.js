@@ -9,62 +9,53 @@ import {
   Typography,
   Container,
 } from "@material-ui/core";
-import FileBase from "react-file-base64";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./styles";
 import Input from "./Input";
-import { signup } from "../../actions/auth";
-
+import { LOGIN } from "../../constants/actionTypes";
+import * as api from "../../api/index";
 const initialState = {
-  firstName: "",
-  lastName: "",
   email: "",
   password: "",
-  confirmPassword: "",
 };
-
-const Auth = () => {
+const Login = () => {
   const classes = useStyles();
   const [formData, setFormData] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(signup(formData, history));
+  const [errorMsg, setErrorMsg] = useState("");
+  const login = (formData, history, errorM) => async (dispatch) => {
+    try {
+      // log in the user
+      const { data } = await api.login(formData);
+      dispatch({ type: LOGIN, data });
+      history.push("/");
+    } catch (err) {
+      errorM = err.response.data;
+      console.log(errorM);
+      setErrorMsg(errorM);
+    }
   };
-
+  const handleSubmit = async (e) => { 
+    e.preventDefault();
+    dispatch(login(formData, history));
+  };
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const handleShowPasswordClicked = () =>
+  const handleShowPassword = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
-
   return (
     <Container component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography variant="h5">Sign Up</Typography>
+        <Typography variant="h5">Sign In</Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <>
-              <Input
-                name="firstName"
-                label="First Name"
-                handleChange={handleChange}
-                autoFocus
-                half
-              />
-              <Input
-                name="lastName"
-                label="Last Name"
-                handleChange={handleChange}
-                half
-              />
             </>
             <Input
               name="email"
@@ -77,27 +68,11 @@ const Auth = () => {
               label="Password"
               handleChange={handleChange}
               type={showPassword ? "text" : "password"}
-              handleShowPassword={handleShowPasswordClicked}
+              handleShowPassword={handleShowPassword}
             />
-            <Input
-              name="confirmPassword"
-              label="Confirm Password"
-              handleChange={handleChange}
-              type="password"
-            />
-            <Typography variant="label" className={classes.profilePic}>
-              Profile Picture
-            </Typography>
-            <div className={classes.fileInput}>
-              <FileBase
-                type="file"
-                multiple={false}
-                onDone={({ base64 }) =>
-                  setFormData({ ...formData, profilePicture: base64 })
-                }
-              />
-            </div>
           </Grid>
+          <br/>
+          {errorMsg && <p style={{color:'red'}}> {errorMsg} </p>}
           <Button
             type="submit"
             fullWidth
@@ -105,15 +80,14 @@ const Auth = () => {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            Sign In
           </Button>
           <p>
-            Have an account? <a href="login">Click Here</a> to Login.
+            Not registered? <a href="auth">Click Here</a> to register.
           </p>
         </form>
       </Paper>
     </Container>
   );
 };
-
-export default Auth;
+export default Login;

@@ -10,6 +10,7 @@ import AlertList from './Components/Alerts/AlertList'
 import Auth from './Components/Auth/Auth'
 import UpdateAlert from './Components/Alerts/UpdateAlert'
 import Footer from './Components/Navigation/Footer'
+import Login from "./Components/Auth/Login";
 
 const App = () => {
   return (
@@ -27,6 +28,9 @@ const App = () => {
           <Route path="/create-alert">
             <CreateAlert />
           </Route>
+          <Route path="/login">
+            <Login />
+            </Route>
           <Route path="/auth">
             <Auth />
           </Route>
