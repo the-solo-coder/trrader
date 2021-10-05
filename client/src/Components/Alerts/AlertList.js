@@ -5,7 +5,7 @@ import { Redirect, useHistory } from 'react-router-dom';
 import webHost from '../../config/web';
 import api from '../../config/web';
 import CreateAlert from './CreateAlert';
-import LOCAL_STORAGE_KEYS from '../../constants/loaclStorageKeys';
+import LOCAL_STORAGE_KEYS from '../../constants/localStorageKeys';
 
 const AlertList = () => {
   const [list, setList] = useState([]);
