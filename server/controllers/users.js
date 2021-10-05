@@ -24,7 +24,6 @@ module.exports.signin = async (req, res) => {
       'jwtSecret',
       { expiresIn: '12h' }
     )
-    console.log(`User: ${existingUser} and Token: ${token}`)
     res.status(200).json({ result: existingUser, token })
   } catch (err) {
     console.log(err)
@@ -75,60 +74,50 @@ module.exports.signup = async (req, res) => {
 }
 
 module.exports.updateProfile = async (req, res) => {
-  const id = req.params.id
-  const {
-    email,
-    password,
-    confirmPassword,
-    firstName,
-    lastName,
-    profilePicture
-  } = req.body
-  console.log(`Id: ${id} and Body: ${req.body}`)
-  try {
-    const existingUser = await User.findOne({ id })
-    const emailAlreadyExists = await User.findOne({ email })
-    if (emailAlreadyExists)
+  const profileId = req.query.id
+  const { email, password, name, profilePicture } = req.body
+
+  const emailAlreadyExists = await User.findOne({ email: email, _id: {$ne: profileId} });
+
+  if (emailAlreadyExists){
       return res
-        .status(400)
-        .json({ message: 'Email already exists, please choose another one.' })
-
-    if (password !== confirmPassword)
-      return res.status(400).json({ message: "Password don't match." })
-    const hashedPassword = await bcrypt.hash(password, 12)
-
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      { ...existingUser, id },
-      { new: true }
-    )
-    const result = await User.create({
-      email,
-      password: hashedPassword,
-      name: `${firstName} ${lastName}`,
-      profilePicture
-    })
-
-    const token = jwt.sign(
-      { email: result.email, id: result._id },
-      'jwtSecret',
-      { expiresIn: '1h' }
-    )
-
-    res.status(200).json({ result, token })
-  } catch (err) {
-    console.log(err)
-    res.status(500).json({ message: 'Something went wrong.' })
+        .status(StatusCodes.CONFLICT)
+        .json({ message: 'Email already exists, please choose another one.' });
   }
+
+  const hashedPassword = await bcrypt.hash(password, 12);
+
+
+  User.findByIdAndUpdate(profileId, {
+    email,
+    password : hashedPassword,
+    name,
+    profilePicture
+  }, 
+  {new: false},
+  function (err, profile) {
+    if(err){
+      console.log("Error in the findByIdAndUpdate line 88: ", err.message);
+      return res
+      .status(StatusCodes.BAD_REQUEST)
+      .send('Something went wrong, try later!')
+    }else{
+      const token = jwt.sign(
+        { email: profile.email, id: profile._id },
+        'jwtSecret',
+        { expiresIn: '12h' }
+      )
+      res.status(StatusCodes.OK).json({profile, token})
+    }
+  })
 }
 
 module.exports.getProfileById = async (req, res) => {
-  console.log('here')
   const profileId = req.query.id
 
   let profile
   try {
-    profile = await User.findById(profileId)
+    profile = await User.findById(profileId, '-password')
   } catch (err) {
     return res
       .status(StatusCodes.BAD_REQUEST)
@@ -141,5 +130,19 @@ module.exports.getProfileById = async (req, res) => {
       .send("Couldn't find profile for the provided id")
   }
 
-  res.json({ profile: profile.toObject({ getters: true }) })
+  const result = profile.toObject({ getters: true })
+  res.locals.profile = result
+  res.status(StatusCodes.OK).json(result)
+}
+
+module.exports.deleteProfileById = async (req, res) => {
+  User.findByIdAndDelete(req.query.id).then(profile => {
+    if (profile) {
+      res.status(StatusCodes.OK).json({ status: 'Profile deleted' })
+    } else {
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ status: 'Error while deleting' })
+    }
+  })
 }
