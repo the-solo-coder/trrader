@@ -12,5 +12,6 @@ API.interceptors.request.use((req) => {
 });
 
 export const signUp = (formData) => API.post("/user/signup", formData);
+export const login = (formData) => API.post("/user/signin", formData);
 export const upDateAlert = (id, upDatedAlert) =>
   API.patch(`/binance/updateAlert/${id}`, upDatedAlert);
