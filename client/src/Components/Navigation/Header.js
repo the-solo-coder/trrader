@@ -3,11 +3,13 @@ import { useDispatch } from 'react-redux'
 import { useHistory, Link, useLocation } from 'react-router-dom'
 import decode from 'jwt-decode';
 
+import LOCAL_STORAGE_KEYS from '../../constants/localStorageKeys';
+
 const Header = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const location = useLocation()
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE)));
   useEffect(() => {
     const token = user?.token
     if (token) {
@@ -15,7 +17,7 @@ const Header = () => {
       const isTokenExpired = decodedToken.exp * 1000 < new Date().getTime()
       if (isTokenExpired) logout()
     }
-    setUser(JSON.parse(localStorage.getItem('profile')))
+    setUser(JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE)));
   }, [location])
 
   const logout = () => {

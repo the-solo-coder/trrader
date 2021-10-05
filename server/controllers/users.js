@@ -1,5 +1,6 @@
 let bcrypt = require("bcryptjs");
 let jwt = require("jsonwebtoken");
+let StatusCodes = require("http-status-codes");
 
 //create user model instance
 let User = require("../models/user");
@@ -10,7 +11,7 @@ module.exports.signin = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email });
     if (!existingUser)
-    return res.status(404).send("User doesn't exists!");
+    return res.status(StatusCodes.NOT_FOUND).send("User doesn't exists!");
 
     const isPasswordCorrect = await bcrypt.compare(
       password,
@@ -18,8 +19,7 @@ module.exports.signin = async (req, res) => {
     );
 
     if (!isPasswordCorrect)
-    return res.status(400).send("Invalid password!");
-
+    return res.status(StatusCodes.BAD_REQUEST).send("Invalid password!");
     const token = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
       "jwtSecret",
@@ -28,7 +28,7 @@ module.exports.signin = async (req, res) => {
     res.status(200).json({ result: existingUser, token });
   } catch (err) {
     console.log(err);
-    res.status(500).send("Something went wrong.");
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Something went wrong.");
   }
 };
 
