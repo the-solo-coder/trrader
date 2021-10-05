@@ -77,39 +77,44 @@ module.exports.updateProfile = async (req, res) => {
   const profileId = req.query.id
   const { email, password, name, profilePicture } = req.body
 
-  const emailAlreadyExists = await User.findOne({ email: email, _id: {$ne: profileId} });
+  const emailAlreadyExists = await User.findOne({
+    email: email,
+    _id: { $ne: profileId }
+  })
 
-  if (emailAlreadyExists){
-      return res
-        .status(StatusCodes.CONFLICT)
-        .json({ message: 'Email already exists, please choose another one.' });
+  if (emailAlreadyExists) {
+    return res
+      .status(StatusCodes.CONFLICT)
+      .json({ message: 'Email already exists, please choose another one.' })
   }
 
-  const hashedPassword = await bcrypt.hash(password, 12);
+  const hashedPassword = await bcrypt.hash(password, 12)
 
-
-  User.findByIdAndUpdate(profileId, {
-    email,
-    password : hashedPassword,
-    name,
-    profilePicture
-  }, 
-  {new: false},
-  function (err, profile) {
-    if(err){
-      console.log("Error in the findByIdAndUpdate line 88: ", err.message);
-      return res
-      .status(StatusCodes.BAD_REQUEST)
-      .send('Something went wrong, try later!')
-    }else{
-      const token = jwt.sign(
-        { email: profile.email, id: profile._id },
-        'jwtSecret',
-        { expiresIn: '12h' }
-      )
-      res.status(StatusCodes.OK).json({profile, token})
+  User.findByIdAndUpdate(
+    profileId,
+    {
+      email,
+      password: hashedPassword,
+      name,
+      profilePicture
+    },
+    { new: false },
+    function (err, profile) {
+      if (err) {
+        console.log('Error in the findByIdAndUpdate line 88: ', err.message)
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .send('Something went wrong, try later!')
+      } else {
+        const token = jwt.sign(
+          { email: profile.email, id: profile._id },
+          'jwtSecret',
+          { expiresIn: '12h' }
+        )
+        res.status(StatusCodes.OK).json({ profile, token })
+      }
     }
-  })
+  )
 }
 
 module.exports.getProfileById = async (req, res) => {

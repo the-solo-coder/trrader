@@ -23,6 +23,6 @@ router.post('/signin', userController.signin)
 router.post('/signup', userController.signup)
 
 /* PATCH Route to update an Profile in the Database. */
-router.post('/updateProfile', userController.updateProfile)
+router.post('/update-profile', userController.updateProfile)
 
 module.exports = router
