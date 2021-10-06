@@ -5,7 +5,7 @@ import Select from 'react-select'
 
 import api from '../../config/web';
 import { BINANCE_URL } from '../../constants/constants';
-import LOCAL_STORAGE_KEYS from '../../constants/loaclStorageKeys';
+import LOCAL_STORAGE_KEYS from '../../constants/localStorageKeys';
 
 const CreateAlert = () => {
     const [symbol, setSymbol] = useState();
