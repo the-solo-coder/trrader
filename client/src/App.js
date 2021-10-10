@@ -1,15 +1,16 @@
-import { SignalCellularConnectedNoInternet1BarSharp } from '@material-ui/icons'
-import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import CreateAlert from './Components/Alerts/CreateAlert'
-import Header from './Components/Navigation/Header'
-import Menu from './Components/Navigation/Menu';
-import Home from './Components/Pages/Home'
-import AlertList from './Components/Alerts/AlertList'
-import Auth from './Components/Auth/Auth'
-import UpdateAlert from './Components/Alerts/UpdateAlert'
-import Footer from './Components/Navigation/Footer'
+import { SignalCellularConnectedNoInternet1BarSharp } from "@material-ui/icons";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import CreateAlert from "./Components/Alerts/CreateAlert";
+import Header from "./Components/Navigation/Header";
+import Menu from "./Components/Navigation/Menu";
+import Home from "./Components/Pages/Home";
+import AlertList from "./Components/Alerts/AlertList";
+import Auth from "./Components/Auth/Auth";
+import UpdateAlert from "./Components/Alerts/UpdateAlert";
+import Footer from "./Components/Navigation/Footer";
 import Login from "./Components/Auth/Login";
+import Account from './Components/Auth/Account'
 
 const App = () => {
   return (
@@ -29,9 +30,12 @@ const App = () => {
           </Route>
           <Route path="/login">
             <Login />
-            </Route>
+          </Route>
           <Route path="/auth">
             <Auth />
+          </Route>
+          <Route path="/account">
+            <Account />
           </Route>
           <Route path="/alerts/update/:id">
             <UpdateAlert />
@@ -40,7 +44,7 @@ const App = () => {
       </main>
       <Footer />
     </Router>
-  )
-}
+  );
+};
 
-export default App
+export default App;
