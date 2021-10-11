@@ -46,11 +46,11 @@ module.exports.signup = async (req, res) => {
 
     if (existingUser) {
       console.log(existingUser)
-      return res.status(400).json({ message: 'User already exists.' })
+      return res.status(StatusCodes.BAD_REQUEST).send('User already exists! Try new email address.')
     }
 
     if (password !== confirmPassword)
-      return res.status(400).json({ message: "Password don't match." })
+    return res.status(StatusCodes.BAD_REQUEST).send("Password don't match")
     const hashedPassword = await bcrypt.hash(password, 12)
 
     const result = await User.create({
@@ -69,7 +69,7 @@ module.exports.signup = async (req, res) => {
     res.status(200).json({ result, token })
   } catch (err) {
     console.log(err)
-    res.status(500).json({ message: 'Something went wrong.' })
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Something went wrong.')
   }
 }
 

@@ -13,7 +13,8 @@ import FileBase from "react-file-base64";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./styles";
 import Input from "./Input";
-import { signup } from "../../actions/auth";
+import { AUTH } from "../../constants/actionTypes";
+import * as api from "../../api/index";
 
 const initialState = {
   firstName: "",
@@ -29,6 +30,20 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const signup = (formData, history, errorM) => async (dispatch) => {
+    try {
+      // sign up the user
+      const { data } = await api.signUp(formData);
+      dispatch({ type: AUTH, data });
+      history.push("/");
+    } catch (err) {
+      errorM = err.response.data;
+      console.log(errorM);
+      setErrorMsg(errorM);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -98,6 +113,8 @@ const Auth = () => {
               />
             </div>
           </Grid>
+          <br />
+          {errorMsg && <p style={{ color: "red" }}> {errorMsg} </p>}
           <Button
             type="submit"
             fullWidth
