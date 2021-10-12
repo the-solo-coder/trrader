@@ -50,7 +50,7 @@ module.exports.signup = async (req, res) => {
     }
 
     if (password !== confirmPassword)
-    return res.status(StatusCodes.BAD_REQUEST).send("Password don't match")
+    return res.status(StatusCodes.BAD_REQUEST).send("Password doesn't match")
     const hashedPassword = await bcrypt.hash(password, 12)
 
     const result = await User.create({
