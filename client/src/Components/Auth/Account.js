@@ -1,32 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import {
-  Avatar,
-  Button,
-  Paper,
-  Grid,
-  Typography,
-  Container,
-} from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import useStyles from "./styles";
-import Input from "./Input";
-import { ACCOUNT } from "../../constants/actionTypes";
-import * as api from "../../api/index";
-import { updateUser } from "../../actions/users";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import LOCAL_STORAGE_KEYS from "../../constants/localStorageKeys";
 
 const Account = () => {
-  const [userData, setUserData] = useState({});
   const userId = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE))
     .result._id;
-  const [name, setName] = useState(userData.name);
-  const [email, setEmail] = useState(userData.email);
-  const [password, setPassword] = useState(userData.password);
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [picture, setPicture] = useState();
+  const [password, setPassword] = useState();
 
-  const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
@@ -36,7 +20,7 @@ const Account = () => {
         .then(async (res) => {
           setName(res.data.name);
           setEmail(res.data.email);
-          await console.log(name, email);
+          setPicture(res.data.profilePicture);
         })
         .catch((error) => {
           console.log(error);
@@ -54,10 +38,27 @@ const Account = () => {
     setEmail(event.target.value);
   };
 
-  const onUpdateUser = async (event) => {
-    event.preventDefault();
-    dispatch(updateUser(userId, { name, email }));
-    history.push("/");
+  const onChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const onChangePicture = (event) => {
+    setPicture(event.target.value);
+  };
+
+  const onUpdateUser = async () => {
+    await axios.post(`http://localhost:5000/api/user/update-profile?id=${userId}`, {
+      email: email,
+      password: password,
+      name: name,
+      profilePicture: picture
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   };
 
   return (
@@ -96,17 +97,17 @@ const Account = () => {
               className="form-control"
               placeholder="Enter New Password"
               value={password}
-              //onChange={onChangeValue}
+              onChange={onChangePassword}
             />
           </div>
           <div className="form-group">
-            <label>Confirm Password</label>
+            <label>Profile Picture</label>
             <input
               type="string"
               className="form-control"
-              placeholder="Repeat New Password"
-              //value={targetValue}
-              //onChange={onChangeValue}
+              placeholder="Enter Picture URL"
+              value={picture}
+              onChange={onChangePicture}
             />
           </div>
         </div>
