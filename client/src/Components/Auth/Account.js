@@ -10,6 +10,7 @@ const Account = () => {
   const [email, setEmail] = useState();
   const [picture, setPicture] = useState();
   const [password, setPassword] = useState();
+  const [showPassword, setShowPassword] = useState(false);
 
   const history = useHistory();
 
@@ -46,6 +47,9 @@ const Account = () => {
     setPicture(event.target.value);
   };
 
+  const handleShowPasswordClicked = () =>
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+
   const onUpdateUser = async () => {
     await axios.post(`http://localhost:5000/api/user/update-profile?id=${userId}`, {
       email: email,
@@ -77,6 +81,7 @@ const Account = () => {
               placeholder="Enter Name"
               value={name}
               onChange={onChangename}
+              required
             />
           </div>
           <div className="form-group">
@@ -88,16 +93,19 @@ const Account = () => {
               placeholder="Enter Email"
               value={email}
               onChange={onChangeEmail}
+              required
             />
           </div>
           <div className="form-group">
             <label>Password</label>
             <input
-              type="string"
+              type={showPassword ? "text" : "password"}
               className="form-control"
               placeholder="Enter New Password"
               value={password}
               onChange={onChangePassword}
+              handleShowPassword={handleShowPasswordClicked}
+              required
             />
           </div>
           <div className="form-group">
