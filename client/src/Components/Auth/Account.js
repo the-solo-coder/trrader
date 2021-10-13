@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import LOCAL_STORAGE_KEYS from "../../constants/localStorageKeys";
 
 const Account = () => {
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE))
+  );
   const userId = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE))
     .result._id;
   const [name, setName] = useState();
@@ -13,6 +17,7 @@ const Account = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,18 +56,33 @@ const Account = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
 
   const onUpdateUser = async () => {
-    await axios.post(`http://localhost:5000/api/user/update-profile?id=${userId}`, {
-      email: email,
-      password: password,
-      name: name,
-      profilePicture: picture
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    await axios
+      .post(`http://localhost:5000/api/user/update-profile?id=${userId}`, {
+        email: email,
+        password: password,
+        name: name,
+        profilePicture: picture,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const onDeleteUser = async () => {
+    await axios
+      .delete(`http://localhost:5000/api/user/deleteProfile?id=${userId}`)
+      .then(function (response) {
+        console.log(response);
+        dispatch({ type: "LOGOUT" });
+        history.push("/");
+        setUser(null);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -126,6 +146,10 @@ const Account = () => {
           &nbsp;
         </div>
       </form>
+      &nbsp;
+      <button className="btn btn-danger" onClick={onDeleteUser}>
+        Delete Account
+      </button>
     </div>
   );
 };
