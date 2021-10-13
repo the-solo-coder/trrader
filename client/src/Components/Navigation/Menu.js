@@ -1,29 +1,53 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useHistory, Link, useLocation } from 'react-router-dom'
-import { Avatar } from '@material-ui/core'
-import decode from 'jwt-decode'
-import { PROFILE } from '../../constants/constants'
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory, Link, useLocation } from "react-router-dom";
+import { Avatar } from "@material-ui/core";
+import decode from "jwt-decode";
+import axios from "axios";
+import LOCAL_STORAGE_KEYS from "../../constants/localStorageKeys";
 
 const Menu = () => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const location = useLocation()
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem(PROFILE)))
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE))
+  );
+  const [name, setName] = useState();
+
   useEffect(() => {
-    const token = user?.token
+    const token = user?.token;
     if (token) {
-      const decodedToken = decode(token)
-      if (decodedToken.exp * 1000 < new Date().getTime()) logout()
+      const decodedToken = decode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-    setUser(JSON.parse(localStorage.getItem('profile')))
-  }, [location])
+    setUser(JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE)));
+  }, [location]);
+
   const logout = () => {
-    dispatch({ type: 'LOGOUT' })
-    history.push('/')
-    setUser(null)
+    dispatch({ type: "LOGOUT" });
+    history.push("/");
+    setUser(null);
+  };
+
+  if (user) {
+    const fetchData = async () => {
+      await axios
+        .get(
+          "http://localhost:5000/api/user" +
+            `/getProfile/?id=${user.result._id}`
+        )
+        .then(async (res) => {
+          setName(res.data.name);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    fetchData();
   }
+
   return (
     <div>
       <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -74,7 +98,7 @@ const Menu = () => {
                 </div>
                 <div className="info">
                   <a href="#" className="d-block">
-                    {user.result.name}
+                    {name}
                   </a>
                 </div>
               </>
@@ -176,7 +200,7 @@ const Menu = () => {
         {/* /.sidebar */}
       </aside>
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;
