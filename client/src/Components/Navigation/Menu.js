@@ -15,6 +15,7 @@ const Menu = () => {
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE))
   );
   const [name, setName] = useState();
+  const [picture, setPicture] = useState();
 
   useEffect(() => {
     const token = user?.token;
@@ -40,6 +41,7 @@ const Menu = () => {
         )
         .then(async (res) => {
           setName(res.data.name);
+          setPicture(res.data.profilePicture)
         })
         .catch((error) => {
           console.log(error);
@@ -91,7 +93,7 @@ const Menu = () => {
               <>
                 <div className="image">
                   <img
-                    src={user.result.profilePicture}
+                    src={picture}
                     className="img-circle elevation-2"
                     alt="User Image"
                   />
