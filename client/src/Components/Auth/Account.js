@@ -1,33 +1,27 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import {
-  Avatar,
-  Button,
-  Paper,
-  Grid,
-  Typography,
-  Container,
-} from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import useStyles from "./styles";
-import Input from "./Input";
-import { ACCOUNT } from "../../constants/actionTypes";
-import * as api from "../../api/index";
-import { updateUser } from "../../actions/users";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import LOCAL_STORAGE_KEYS from "../../constants/localStorageKeys";
 
+import FileBase from "react-file-base64";
+import useStyles from "./styles";
+
 const Account = () => {
-  const [userData, setUserData] = useState({});
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE))
+  );
   const userId = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PROFILE))
     .result._id;
-  const [name, setName] = useState(userData.name);
-  const [email, setEmail] = useState(userData.email);
-  const [password, setPassword] = useState(userData.password);
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [picture, setPicture] = useState();
+  const [password, setPassword] = useState();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const dispatch = useDispatch();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const classes = useStyles();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +30,7 @@ const Account = () => {
         .then(async (res) => {
           setName(res.data.name);
           setEmail(res.data.email);
-          await console.log(name, email);
+          setPicture(res.data.profilePicture);
         })
         .catch((error) => {
           console.log(error);
@@ -54,10 +48,45 @@ const Account = () => {
     setEmail(event.target.value);
   };
 
-  const onUpdateUser = async (event) => {
-    event.preventDefault();
-    dispatch(updateUser(userId, { name, email }));
-    history.push("/");
+  const onChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const onChangePicture = (event) => {
+    setPicture(event.target.value);
+  };
+
+  const handleShowPasswordClicked = () =>
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+
+  const onUpdateUser = async () => {
+    await axios
+      .post(`http://localhost:5000/api/user/update-profile?id=${userId}`, {
+        email: email,
+        password: password,
+        name: name,
+        profilePicture: picture,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const onDeleteUser = async () => {
+    await axios
+      .delete(`http://localhost:5000/api/user/deleteProfile?id=${userId}`)
+      .then(function (response) {
+        console.log(response);
+        dispatch({ type: "LOGOUT" });
+        history.push("/");
+        setUser(null);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -76,6 +105,7 @@ const Account = () => {
               placeholder="Enter Name"
               value={name}
               onChange={onChangename}
+              required
             />
           </div>
           <div className="form-group">
@@ -87,28 +117,31 @@ const Account = () => {
               placeholder="Enter Email"
               value={email}
               onChange={onChangeEmail}
+              required
             />
           </div>
           <div className="form-group">
             <label>Password</label>
             <input
-              type="string"
+              type={showPassword ? "text" : "password"}
               className="form-control"
               placeholder="Enter New Password"
               value={password}
-              //onChange={onChangeValue}
+              onChange={onChangePassword}
+              handleShowPassword={handleShowPasswordClicked}
+              required
             />
           </div>
-          <div className="form-group">
-            <label>Confirm Password</label>
-            <input
-              type="string"
-              className="form-control"
-              placeholder="Repeat New Password"
-              //value={targetValue}
-              //onChange={onChangeValue}
-            />
-          </div>
+          <div className={classes.fileInput}>
+            <label>Profile Picture</label>
+              <FileBase
+                type="file"
+                multiple={false}
+                onDone={({ base64 }) =>
+                  setPicture({ base64 }), console.log(picture)
+                }
+              />
+            </div>
         </div>
         <div className="card-footer">
           <button type="submit" className="btn btn-primary">
@@ -117,6 +150,10 @@ const Account = () => {
           &nbsp;
         </div>
       </form>
+      &nbsp;
+      <button className="btn btn-danger" onClick={onDeleteUser}>
+        Delete Account
+      </button>
     </div>
   );
 };
