@@ -60,6 +60,11 @@ const Home = props => {
             </div>
           )}
         </div>
+        <coingecko-coin-compare-chart-widget
+          coin-ids="bitcoin,usd-coin"
+          currency="usd"
+          locale="en"
+        ></coingecko-coin-compare-chart-widget>
       </div>
     </React.Fragment>
   )
