@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
+import FileBase from "react-file-base64";
+import useStyles from "./styles";
 import LOCAL_STORAGE_KEYS from "../../constants/localStorageKeys";
 
 const Account = () => {
@@ -18,6 +20,7 @@ const Account = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -128,14 +131,14 @@ const Account = () => {
               required
             />
           </div>
-          <div className="form-group">
-            <label>Profile Picture</label>
-            <input
-              type="string"
-              className="form-control"
-              placeholder="Enter Picture URL"
-              value={picture}
-              onChange={onChangePicture}
+          <label>Profile Picture</label>
+          <div className={classes.fileInput}>
+            <FileBase
+              type="file"
+              multiple={false}
+              onDone={
+                ({ base64 }) => setPicture({ base64 }), console.log(picture)
+              }
             />
           </div>
         </div>
