@@ -75,10 +75,25 @@ module.exports.signup = async (req, res) => {
 
 module.exports.updateProfile = async (req, res) => {
   const profileId = req.query.id
-  const { email, password, name, profilePicture } = req.body
+  let hashedPassword = ''
 
+  // sanitizing date with fields with no empty string
+  const updateData = {}
+  for (const data of req.body) {
+    if (data.value) {
+      if (data.propName === 'password') {
+        hashedPassword = await bcrypt.hash(data.value, 12)
+        updateData[data.propName] = hashedPassword
+      } else {
+        updateData[data.propName] = data.value
+      }
+    }
+  }
+  console.log('Data received to be updated: ', updateData)
+
+  //checking if the email given by user already exists in the database
   const emailAlreadyExists = await User.findOne({
-    email: email,
+    email: updateData.email,
     _id: { $ne: profileId }
   })
 
@@ -87,34 +102,28 @@ module.exports.updateProfile = async (req, res) => {
       .status(StatusCodes.CONFLICT)
       .json({ message: 'Email already exists, please choose another one.' })
   }
-
-  const hashedPassword = await bcrypt.hash(password, 12)
-
-  User.findByIdAndUpdate(
-    profileId,
-    {
-      email,
-      password: hashedPassword,
-      name,
-      profilePicture
-    },
-    { new: false },
-    function (err, profile) {
-      if (err) {
-        console.log('Error in the findByIdAndUpdate line 88: ', err.message)
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .send('Something went wrong, try later!')
-      } else {
-        const token = jwt.sign(
-          { email: profile.email, id: profile._id },
-          'jwtSecret',
-          { expiresIn: '12h' }
-        )
-        res.status(StatusCodes.OK).json({ profile, token })
-      }
-    }
-  )
+  //useFindAndModify
+  User.findOneAndUpdate({ _id: profileId }, { $set: updateData })
+    .exec()
+    .then(result => {
+      //creating a token
+      const token = jwt.sign(
+        { email: updateData.email, id: profileId },
+        'jwtSecret',
+        { expiresIn: '12h' }
+      )
+      //sending response
+      res
+        .status(StatusCodes.OK)
+        .json({ message: 'Updated with success', profileId, token })
+    })
+    .catch(err => {
+      console.log('Error in update user profile: ', err)
+      //returning server error
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .send('Something went wrong, try later!')
+    })
 }
 
 module.exports.getProfileById = async (req, res) => {
