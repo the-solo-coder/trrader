@@ -128,17 +128,16 @@ const Account = () => {
               value={password}
               onChange={onChangePassword}
               handleShowPassword={handleShowPasswordClicked}
-              required
             />
           </div>
-          <label>Profile Picture</label>
-          <div className={classes.fileInput}>
-            <FileBase
-              type="file"
-              multiple={false}
-              onDone={
-                ({ base64 }) => setPicture({ base64 }), console.log(picture)
-              }
+          <div className="form-group">
+            <label>Profile Picture</label>
+            <input
+              type="string"
+              className="form-control"
+              placeholder="Enter Picture URL"
+              value={picture}
+              onChange={onChangePicture}
             />
           </div>
         </div>
