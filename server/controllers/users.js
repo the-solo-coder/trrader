@@ -77,9 +77,14 @@ module.exports.updateProfile = async (req, res) => {
   const profileId = req.query.id
   let hashedPassword = ''
 
+  const payload = [{	"propName": "email", "value": req.body.email},
+  {	"propName": "name", "value": req.body.name}, 
+  {	"propName": "password", "value": req.body.password}, 
+  {	"propName": "profilePicture", "value": req.body.profilePicture}]
+
   // sanitizing date with fields with no empty string
   const updateData = {}
-  for (const data of req.body) {
+  for (const data of payload) {
     if (data.value) {
       if (data.propName === 'password') {
         hashedPassword = await bcrypt.hash(data.value, 12)
