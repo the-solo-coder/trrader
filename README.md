@@ -45,6 +45,7 @@ Step 4: Start the server and client app using the following command
 - [@thegrandstaff](https://github.com/thegrandstaff)
 - [@njteh7](https://github.com/njteh7)
 - [@alessandra60](https://github.com/alessandra60)
+  [@MkSona](https://github.com/MkSona)
 - [@FSantiago1987](https://github.com/FSantiago1987)
 - [@ashiklochna](https://github.com/ashiklochna)
 - [@JoyeetaNandi](https://github.com/JoyeetaNandi)
