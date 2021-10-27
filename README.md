@@ -32,7 +32,9 @@ Step 4: Start the server and client app using the following command
 ```
 
   
-## Tech Stack
+## Tech Stack and Languages
+
+**Languages:** JavaScript, HTML, CSS
 
 **Client:** React
 
