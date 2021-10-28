@@ -1,6 +1,5 @@
 let nodemailer = require('nodemailer');
-import dotenv from "dotenv";
-dotenv.config();
+require('dotenv').config();
 
 module.exports = function (message, receiver) {
     var transporter = nodemailer.createTransport({

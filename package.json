@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./server.js",
-    "dev": "nodemon ./server.js"
+    "dev": "nodemon ./server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "engines": {
-    "node": "^12.18.3",
-    "npm": "^6.0.0"
+    "node": "^14.17.4",
+    "npm": "^6.14.14"
   },
   "dependencies": {
     "@angular/cli": "^10.2.0",
@@ -43,7 +44,7 @@
     "react-file-base64": "^1.0.3",
     "tslib": "^2.0.3"
   },
-  "description": "demo app for COMP229 Week 3",
+  "description": "demo app",
   "main": "server.js",
   "devDependencies": {
     "@types/connect-flash": "0.0.35",
