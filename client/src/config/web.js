@@ -1,3 +1,3 @@
 module.exports = {
-    "URI": "http://localhost:5000/api/binance"
+    "URI": "/api/binance"
 }

@@ -36,7 +36,7 @@ const Menu = () => {
     const fetchData = async () => {
       await axios
         .get(
-          "http://localhost:5000/api/user" +
+          "/api/user" +
             `/getProfile/?id=${user.result._id}`
         )
         .then(async (res) => {

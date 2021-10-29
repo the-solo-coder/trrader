@@ -25,7 +25,7 @@ const Account = () => {
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .get("http://localhost:5000/api/user" + `/getProfile/?id=${userId}`)
+        .get("/api/user" + `/getProfile/?id=${userId}`)
         .then(async (res) => {
           setName(res.data.name);
           setEmail(res.data.email);
@@ -60,7 +60,7 @@ const Account = () => {
 
   const onUpdateUser = async () => {
     await axios
-      .post(`http://localhost:5000/api/user/update-profile?id=${userId}`, {
+      .post(`/api/user/update-profile?id=${userId}`, {
         email: email,
         password: password,
         name: name,
@@ -76,7 +76,7 @@ const Account = () => {
 
   const onDeleteUser = async () => {
     await axios
-      .delete(`http://localhost:5000/api/user/deleteProfile?id=${userId}`)
+      .delete(`/api/user/deleteProfile?id=${userId}`)
       .then(function (response) {
         console.log(response);
         dispatch({ type: "LOGOUT" });
